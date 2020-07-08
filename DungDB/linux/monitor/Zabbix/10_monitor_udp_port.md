@@ -8,4 +8,4 @@ Kết quả:
 
 ![Imgur](https://i.imgur.com/YFvNox6.png)
 
-Tham khảo thêm: https://www.zabbix.com/documentation/3.2/manual/config/items/itemtypes/simple_checks
+Tham khảo thêm: https://www.zabbix.com/documentation/3.2/manual/config/items/itemtypes/simple_checks 

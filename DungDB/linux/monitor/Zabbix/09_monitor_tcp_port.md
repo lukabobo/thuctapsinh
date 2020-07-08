@@ -10,4 +10,4 @@ Kết quả:
 
 Tham khảo thêm: https://www.zabbix.com/documentation/3.2/manual/config/items/itemtypes/simple_checks
 
-https://www.zabbix.com/documentation/current/manual/config/items/itemtypes/simple_checks
+https://www.zabbix.com/documentation/current/manual/config/items/itemtypes/simple_checks 
