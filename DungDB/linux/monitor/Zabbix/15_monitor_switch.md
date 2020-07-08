@@ -4,7 +4,7 @@ Hướng dẫn:
 
 https://news.cloud365.vn/zabbix-giam-sat-cisco-switch-snmp/
 
-Lưu ý chọn agent SNMP
+**Lưu ý:** Chọn SNMP interface
 
 Kết quả:
 

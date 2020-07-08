@@ -19,3 +19,4 @@ Vào phần last data có thể thấy ta giám sát được trạng thái dị
 Tham khảo thêm:
 
 https://github.com/niemdinhtrong/thuctapsinh/blob/master/NiemDT/Ghichep-zabbix/labs/monitor-service.md
+
