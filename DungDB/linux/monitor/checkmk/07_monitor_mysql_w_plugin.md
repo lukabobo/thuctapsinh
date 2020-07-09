@@ -6,6 +6,12 @@ https://news.cloud365.vn/checkmk-giam-sat-mysql/
 
 Kết quả:
 
+Kết quả đối với Centos 7
+
 ![Imgur](https://i.imgur.com/iwfpUML.png)
+
+Kết quả đối với Ubuntu 18
+
+![Imgur](https://i.imgur.com/C70lpRU.png)
 
 Cách này chỉ cài trên từng host một.

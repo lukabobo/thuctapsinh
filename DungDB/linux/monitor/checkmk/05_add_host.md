@@ -1,5 +1,9 @@
 # Add agent cho host và thêm host vào checkmk để giám sát
 
+Mô hình lab
+
+![Imgur](https://i.imgur.com/trOjJPm.png)
+
 ## Đối với Centos 7
 
 Vào trang checkmk -> monitor agent 
