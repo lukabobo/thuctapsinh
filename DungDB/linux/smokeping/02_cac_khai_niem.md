@@ -28,6 +28,8 @@ Các màu sắc khác nhau thể hiện số lượng gói tin bị mất khác 
 
 Khái niệm này mọi người đều đã hiểu.
 
+Thuật ngữ Average được dùng trong toán học, trong thống kê thì dùng thuật ngữ là Mean. Cách tính hoàn toàn giống nhau.
+
 ## Median (số trung vị)
 
 Giải thích dễ hiểu:
