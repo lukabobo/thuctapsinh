@@ -6,6 +6,10 @@ Thực hiện theo hướng dẫn:
 
 https://news.cloud365.vn/huong-dan-gui-mail-dung-postfix/
 
+Nếu không gửi được mail với postfix, xem cách fix tại hiroom2.com/2017/05/14/centos-7-send-mail-with-postfix/
+
+![Imgur](https://i.imgur.com/SG0cT47.png)
+
 ## Cấu hình trong file `/etc/smokeping/config`
 
     vi /etc/smokeping/config
