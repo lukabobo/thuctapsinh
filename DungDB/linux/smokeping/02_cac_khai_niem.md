@@ -28,7 +28,7 @@ Các màu sắc khác nhau thể hiện số lượng gói tin bị mất khác 
 
 Khái niệm này mọi người đều đã hiểu.
 
-Thuật ngữ Average được dùng trong toán học, trong thống kê thì dùng thuật ngữ là Mean. Cách tính hoàn toàn giống nhau.
+Thuật ngữ Average được dùng trong toán học, trong thống kê thì dùng thuật ngữ là Mean. Cách tính hoàn toàn giống nhau. 
 
 ## Median (số trung vị)
 
@@ -51,6 +51,8 @@ Một lần đo (1 lần thăm dò) trong hệ thống test là 20 gói/phút. M
 Khái niệm này khá khó hiểu. Độ lệch chuẩn là căn bậc hai của phương sai cho biết bình quân giá trị của các lượng biến cách giá trị trung bình chung là bao nhiêu đơn vị. 
 
 Giải thích cho dễ hiểu:
+
+Độ lệch chuẩn là thước đo cách thức dữ liệu được trải ra
 
 Độ lệch chuẩn càng lớn thì biểu đồ càng nhiều biến động => mức độ ổn định của mạng không cao.
 
