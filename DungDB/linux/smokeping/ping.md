@@ -4,6 +4,8 @@
 
 Đọc thêm các thông số của lệnh ping tại đây: https://gmwolfit.blogspot.com/2018/02/cac-thong-so-cua-lenh-ping.html
 
+Các ví dụ tại đây: https://www.tecmint.com/linux-ping-command-examples/
+
 ## Các option:
 
 - `-t`: Ping liên tục không xác định thời gian dừng
