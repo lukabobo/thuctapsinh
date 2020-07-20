@@ -149,6 +149,7 @@ Trong ví dụ này, các dấu sao hiển thị mất gói. Điều này có th
 
 **Các option:**
 
+- `-4`: Để theo dõi tuyến đến máy chủ mạng bằng giao thức IPv4 (như mặc định)
 - `-6`: Để theo dõi tuyến đến máy chủ mạng bằng giao thức IPv6. Ví dụ: `traceroute -6n ipv6.google.com`
 - `-n`: Tắt tính năng ánh xạ địa chỉ IP và tên miền. Ví dụ: `traceroute -n google.com`
 
@@ -166,12 +167,24 @@ Trong ví dụ này, các dấu sao hiển thị mất gói. Điều này có th
 
 ![Imgur](https://i.imgur.com/SwXZ0yF.png)
 
-- `-m`: Chỉ hiển thị các hop từ dòng thứ 1 đến dòng thứ x. Ví dụ x=5: `traceroute -n -m 5 google.com`
+- `-m`: Chỉ hiển thị tối đa các hop = x. Ví dụ x=5: `traceroute -n -m 5 google.com`
 
 ![Imgur](https://i.imgur.com/ZcieBS9.png)
 
+- `-F`: không phân mảnh gói tin
+
+- `-n`: Không resolve các địa chỉ IP thành tên miền
+
+- `-p`: Đặt port đích để dùng. Mặc định là port 33434. Ví dụ: `traceroute  -p 20292 google.com`
+
+- Cấu hình full packet lenght. (Mặc định 1 packet 60 bytes). `traceroute  google.com 100`
+- `--help`: Trợ giúp về lệnh. `traceroute --help`
 ## Tham khảo:
 
 https://quantrimang.com/su-dung-tracert-35053
 
 https://blogd.net/linux/huong-dan-dung-traceroute-trong-linux/
+
+Các option:
+
+https://www.geeksforgeeks.org/traceroute-command-in-linux-with-examples/
