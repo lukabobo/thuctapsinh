@@ -92,6 +92,10 @@ Các option:
 - `-w`: Khoảng thời gian (tính theo mili giây) chờ thông báo ICMP Time Exceeded hoặc Echo Reply đáp lại tương ứng với thông báo Echo Request. Nếu vượt quá khoảng thời gian quy định mà không có thông báo gì, dấu hoa thị (*) sẽ được hiển thị. Thời gian mặc định là 4000 (tức 4 giây)
 - `-?`: Phần trợ giúp ở màn hình lệnh.
 
+VD:
+
+![Imgur](https://i.imgur.com/N45H7Ag.png)
+
 ### Đối với Linux
 
 Đầu tiên cần phải cài đặt `traceroute`
