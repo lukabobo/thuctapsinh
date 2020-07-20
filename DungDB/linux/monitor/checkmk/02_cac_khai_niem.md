@@ -4,13 +4,13 @@
 
 ### States, events, host, services.
 
-State (Trạng thái): là trạng thái của 1 host. Có thể là Up, down, unreache, pending
+State (Trạng thái): là trạng thái của 1 host. Có thể là UP, DOWN, UNREACH, PENDING
 
 Event (Sự kiện): là một điều xảy ra độc nhất tại một thời điểm cụ thể. Các sự kiện xảy ra tự phát. Ví dụ như một lỗi phát sinh.
 
 Host: có thể là một server, một thiết bị mạng, một thiết bị có địa chỉ IP, v.v
 
-Service: một dịch vụ có thể là bất cứ thứ gì. Dịch vụ là một phần ảnh hưởng đến việc host có OK hay không. State của dịch vụ thường được xác định chỉ khi host trong điều kiện UP. 
+Service: một dịch vụ có thể là bất cứ thứ gì. Dịch vụ là một phần ảnh hưởng đến việc host có OK hay không. State của dịch vụ thường được xác định chỉ khi host trong điều kiện UP. Các trạng thái của dịch vụ là OK (ok), WARN (cảnh báo), CRIT (nghiêm trọng), UNKNOWN (không biết).
 
 ### Group
 

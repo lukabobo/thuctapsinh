@@ -4,6 +4,10 @@ Tạo instances (or site)
 
     omd create name_site
 
+Ví dụ tạo 1 site mới với tên dungdb
+
+![Imgur](https://i.imgur.com/IqNotfe.png)
+
 Xác định user/group ID
 
     omd create -u 6100 -g 180 name_site
