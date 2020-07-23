@@ -49,3 +49,5 @@ Các biểu đồ trong phiên bản RAW edition không thể tương tác đư�
 ## Đọc thêm
 
 https://checkmk.com/cms_monitoring_basics.html
+
+https://checkmk.com/cms_wato_services.html#checkplugins
