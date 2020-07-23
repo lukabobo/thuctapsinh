@@ -21,3 +21,23 @@ Sau đó vào giao diện web checkmk discovery host vừa cài plugin và activ
 Kết quả:
 
 ![Imgur](https://i.imgur.com/hJYtucg.png)
+
+## Sử dụng smartctl 
+
+- `-H`: Quan sát trạng thái ổ đĩa
+
+![Imgur](https://i.imgur.com/N6ALcXb.png)
+
+- `-i`: Xem thông tin (infomation) của ổ. Trong một hệ thống có nhiều ổ cứng, việc ghi chép đầy đủ các thông tin này có thể hỗ trợ bạn trong việc biết ổ cứng nào (chẳng hạn như /dev/sda) tương ứng với ổ đĩa vật lý nào
+
+![Imgur](https://i.imgur.com/d7VbEFR.png)
+
+- `-a`: hiển thị các chi tiết kỹ thuật cho các thuộc tính SMART và lưu ký quá trình test. Nó hiển thị các thông tin trạng thái SMART khác nhau, chẳng hạn như nhiệt độ ổ cứng, ổ cứng đã hoạt động được bao nhiêu giờ,… Nó cũng chỉ thị thời điểm test được thực hiện và các kết quả cho các lần test đó là gì.
+
+![Imgur](https://i.imgur.com/jmcB5r4.png)
+
+Cuối cùng, smartctl có thể được sử dụng để khởi tạo các quá trình test ngắn và dài cho ổ cứng. Các quá trình này có thể được chạy một cách định kỳ để thực hiện hành động test nhanh, toàn bộ, hay tự test (self-test) ổ đĩa.
+
+    smartctl --test=short /dev/sda
+    smartctl --test=long /dev/sda
+    smartctl -a /dev/sda

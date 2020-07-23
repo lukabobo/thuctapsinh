@@ -1,10 +1,18 @@
-# Cấu hình dịch vụ
+# Dịch vụ và Metrics
 
 https://checkmk.com/cms_intro.html
 
 Như đã nói ở phần 2:
 
 Service: một dịch vụ có thể là bất cứ thứ gì. Dịch vụ là một phần ảnh hưởng đến việc host có OK hay không. State của dịch vụ thường được xác định chỉ khi host trong điều kiện UP. Các trạng thái của dịch vụ là OK (ok), WARN (cảnh báo), CRIT (nghiêm trọng), UNKNOWN (không biết).
+
+Các trạng thái dịch vụ:
+
+![Imgur](https://i.imgur.com/nrxwwS7.png)
+
+các trạng thái của dịch vụ sắp xếp theom ức độ nghiêm trọng tăng dần:
+
+![Imgur](https://i.imgur.com/8CjpijL.png)
 
 Ví dụ một host có thể có các dịch vụ memory (RAM), CPU load, CPU utilization, 	Filesystem /, vân vân.
 
@@ -24,9 +32,11 @@ Ban đầu, tất cả các dịch vụ đều là undecided. Click vào nút `F
  
 Sau khi chỉnh sửa, click vào nút `Activate affected` sẽ thấy các dịch vụ được giám sát. 
 
-## Metrics
+Các icon quan trọng:
 
-Ví dụ về Metric của dịch vụ File system /
+![Imgur](https://i.imgur.com/p8LkO8a.png)
+
+Ví dụ về Metric của dịch vụ `Filesystem /`
 
 ![Imgur](https://i.imgur.com/E0KaJx0.png)
 
@@ -35,3 +45,7 @@ Con số cần chú ý là 22.05 phần trăm đã sử dụng. Đây là tông 
 ![Imgur](https://i.imgur.com/5728MwG.png)
 
 Các biểu đồ trong phiên bản RAW edition không thể tương tác được. 
+
+## Đọc thêm
+
+https://checkmk.com/cms_monitoring_basics.html
