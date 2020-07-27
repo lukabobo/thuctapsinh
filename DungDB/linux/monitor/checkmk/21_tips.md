@@ -36,6 +36,12 @@ Khi máy cần giám sát là máy in, chúng thường có trạng thái down. 
 
 Nếu host down checkmk vẫn xem đó là trạng thái bình thường.
 
+Để tránh cảnh báo khi timeout, ta thêm rule vào `Status of the Check_MK services`
+
+![Imgur](https://i.imgur.com/htPRZlu.png)
+
+Chọn `State in case of connection problems` và `State in case of a timeout` là OK
+
 ## Đặt ngưỡng cảnh báo sử dụng disk
 
 Ngưỡng cảnh báo mặc định là 80% sẽ warning. Nhưng đối với các server có ổ cứng lớn, ví dụ như 2T, sử dụng hết 80% thì vẫn còn 400GB. Như thế vẫn là rất nhiều để cảnh báo.
