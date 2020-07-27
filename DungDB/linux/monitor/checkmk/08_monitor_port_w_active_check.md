@@ -1,5 +1,7 @@
 # Monitor TCP port với active checks
 
+Thực hiện theo hướng dẫn:
+
 https://news.cloud365.vn/checkmk-giam-sat-port-tcp/
 
 Chú ý mở port cần giám sát trên host hoặc tắt firewall đi
