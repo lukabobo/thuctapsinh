@@ -140,3 +140,77 @@ Thử tắt host 10.10.10.173 thử xem có nhận được cảnh báo không.
 Nhận được cảnh báo không ping được đến host 10.10.10.173 (lost 100%, host down)
 
 Tham khảo: https://blog.sleeplessbeastie.eu/2017/09/11/how-to-keep-track-of-network-latency/
+
+Note thực tế:
+
+```
++someloss
+type = loss
+# in percent
+pattern = >0%,*12*,>0%,*12*,>0%
+comment = Mất gói 3 lần liên tiếp
+
++someloss2
+type = loss
+edgetrigger = yes
+pattern = >0%,>5%,>5%,>5%,>5%,>5%,
+comment = Mất gói ít liên tục trong 5 lần ping liên tiếp
+
++offlineatstartup
+type = rtt
+pattern = ==S,==U
+comment = offline at startup
+
+#+hostdown_with_state
+#type        = loss
+#pattern     = >50%
+#edgetrigger = yes
+#comment     = Mất hơn 50% gói tin sẽ báo host down
+
++hostdown
+type = loss
+edgetrigger = yes
+pattern = ==0%,==0%,==0%, ==U
+comment = host down!
+
++lossdetect
+type        = loss
+pattern     = ==0%,==0%,==0%,==0%,==0%,>20%,>20%,>20%
+comment     = 3 lần ping liên tục bị mất 20% gói tin (4/20 gói)
+
+#+lossdetect_with_state
+#type        = loss
+#edgetrigger = yes
+#pattern     = ==0%,==0%,==0%,==0%,==0%,>0%,>0%,>0%
+#comment     = sudden packet loss (không dùng)
+
++rttdetect
+type    = rtt
+pattern = <100,<100,<100,<100,<100,>100,>100,>100
+comment = độ trễ trong 3 lần ping liên tục cao hơn 100ms
+
++lost_5_from_20_with_state
+type        = matcher
+edgetrigger = yes
+pattern     = CheckLoss(l => 5,x => 20)
+comment     = Số lần mất gói trong 2 lần ping thử lớn hơn 5
+
++rtt_avg_increased
+type        = matcher
+pattern     = Avgratio(historic => 20, current => 2, comparator=>'>', percentage => 1500)
+comment     = độ trễ trong 2 lần gần nhất tăng hơn 1500% so với 20 lần ping thử trước đó
+
++loss80
+type = loss
+priority = 2
+edgetrigger = yes
+pattern = ==0%,==0%,>80%
+comment = mất hơn 80% gói tin đột ngột 
+
+#+recover80
+#type = loss
+#priority = 1
+#edgetrigger = yes
+#pattern = >80%,==0%,==0%
+#comment = Trở lại trạng thái bình thường sau khi mất gói hơn 80%
+```
