@@ -139,9 +139,7 @@ Thử tắt host 10.10.10.173 thử xem có nhận được cảnh báo không.
 
 Nhận được cảnh báo không ping được đến host 10.10.10.173 (lost 100%, host down)
 
-Tham khảo: https://blog.sleeplessbeastie.eu/2017/09/11/how-to-keep-track-of-network-latency/
-
-Note thực tế:
+**Note thực tế:**
 
 ```
 +someloss
@@ -214,3 +212,9 @@ comment = mất hơn 80% gói tin đột ngột
 #pattern = >80%,==0%,==0%
 #comment = Trở lại trạng thái bình thường sau khi mất gói hơn 80%
 ```
+
+Tham khảo: 
+
+https://blog.sleeplessbeastie.eu/2017/09/11/how-to-keep-track-of-network-latency/
+
+https://www.m00nie.com/how-to-configure-smokeping-alerts/
