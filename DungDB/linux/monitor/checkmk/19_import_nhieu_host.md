@@ -37,3 +37,5 @@ Bây giờ chỉ cần active các thay đổi là ta đã thêm thành công nh
 ![Imgur](https://i.imgur.com/UkFsD3V.png)
 
 ![Imgur](https://i.imgur.com/UBjsJRf.png)
+
+Tham khảo: https://github.com/niemdinhtrong/thuctapsinh/blob/master/NiemDT/Ghichep_checkmk/docs/08.Add-nhieu-host.md
