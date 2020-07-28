@@ -16,6 +16,10 @@ Các trạng thái dịch vụ:
 - UNKOWN: Không thể xác định được trạng thái chính xác của dịch vụ. Agent giám sát gửi dữ liệu bị khiếm khuyết hoặc thành phần được giám sát đã biến mất.
 - PEND: Dịch vụ mới được thêm vào giám sát, dữ liệu chưa được cấp nhật.
 
+Phân biệt với các trạng thái của host:
+
+![Imgur](https://i.imgur.com/NyYPDnZ.png)
+
 Các trạng thái của dịch vụ sắp xếp theo mức độ nghiêm trọng tăng dần:
 
 ![Imgur](https://i.imgur.com/8CjpijL.png)

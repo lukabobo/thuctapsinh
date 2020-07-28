@@ -42,6 +42,12 @@ Nếu host down checkmk vẫn xem đó là trạng thái bình thường.
 
 Chọn `State in case of connection problems` và `State in case of a timeout` là OK
 
+## Tắt cảnh báo cho host flapping
+
+Khi có một host rơi vào trạng thái flapping mà ta không muốn nhận cảnh báo. Có thể bật/tắt rule ở đây
+
+![Imgur](https://i.imgur.com/YHZWLoL.png)
+
 ## Đặt ngưỡng cảnh báo sử dụng disk
 
 Ngưỡng cảnh báo mặc định là 80% sẽ warning. Nhưng đối với các server có ổ cứng lớn, ví dụ như 2T, sử dụng hết 80% thì vẫn còn 400GB. Như thế vẫn là rất nhiều để cảnh báo.
