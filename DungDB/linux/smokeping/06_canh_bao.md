@@ -6,9 +6,20 @@ Thực hiện theo hướng dẫn:
 
 https://news.cloud365.vn/huong-dan-gui-mail-dung-postfix/
 
+Nếu không thể restart dịch vụ postfix thì vào file`/etc/postfix/main.cf`
+
+    vi /etc/postfix/main.cf
+
+Tìm và sửa lại 2 dòng
+
+    inet_interfaces = all
+    inet_protocols = all
+
 Nếu không gửi được mail với postfix, xem cách fix tại hiroom2.com/2017/05/14/centos-7-send-mail-with-postfix/
 
 ![Imgur](https://i.imgur.com/SG0cT47.png)
+
+https://accounts.google.com/DisplayUnlockCaptcha
 
 ## Cấu hình trong file `/etc/smokeping/config`
 
