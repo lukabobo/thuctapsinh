@@ -19,7 +19,13 @@ Nếu không gửi được mail với postfix, xem cách fix tại hiroom2.com/
 
 ![Imgur](https://i.imgur.com/SG0cT47.png)
 
+Truy cập vào với đúng tài khoảng email dung để gửi cảnh báo
+
 https://accounts.google.com/DisplayUnlockCaptcha
+
+Click tiếp tục
+
+![Imgur](https://i.imgur.com/vlVT6At.png)
 
 ## Cấu hình trong file `/etc/smokeping/config`
 
