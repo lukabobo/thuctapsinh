@@ -153,6 +153,8 @@ def main():
 main()
 ```
 
+Sửa lại token của bot ở dòng 29
+
 Change quyền
 
     chmod +x /omd/sites/monitoring/share/check_mk/notifications/telegram.py
@@ -168,3 +170,21 @@ https://news.cloud365.vn/checkmk-1-6-cau-hinh-canh-bao-qua-telegram/
 ## Kết quả
 
 ![Imgur](https://i.imgur.com/zDeLhap.png)
+
+Để add bot vào một group để thông báo với nhiều người. Ta tạo 1 group, add bot với tư cách là admin
+
+Sau đó lấy toke của bot và truy cập vào trang này để lấy chat ID của group
+
+https://api.telegram.org/bot<token của bot>/getUpdates
+
+Vào group chat một câu để lấy chatID
+
+![Imgur](https://i.imgur.com/5qInzgv.png)
+
+ChatID của group sẽ có dấu trừ `-` đằng trước.
+
+Copy lại chatID này
+
+Trên UI checkmk, vào `Users`, tạo một user mới với chatID là chatID đã copy lúc nãy.
+
+Lưu lại và áp dụng thay đổi.
