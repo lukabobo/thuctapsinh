@@ -146,6 +146,11 @@ Sau khi sửa:
  alerts = someloss,offlineatstartup,hostdown_with_state,rttdetect,rtt_avg_increased,lossdetect
 ```
 
+Sau khi sửa file cấu hình cần phải khởi động lại dịch vụ httpd và smokeping
+
+    systemctl restart httpd
+    systemctl restart smokeping
+
 Thử tắt host 10.10.10.173 thử xem có nhận được cảnh báo không.
 
 **Kết quả:**
@@ -163,7 +168,7 @@ Nhận được cảnh báo không ping được đến host 10.10.10.173 (lost 
 type = loss
 # in percent
 pattern = >0%,*12*,>0%,*12*,>0%
-comment = Mất gói 3 lần liên tiếp
+comment = Mất gói 3 lần liên tiếp (không dùng)
 
 +someloss2
 type = loss
@@ -178,9 +183,9 @@ comment = offline at startup
 
 #+hostdown_with_state
 #type        = loss
-#pattern     = >50%
+#pattern     = >50%,>50%,>50%
 #edgetrigger = yes
-#comment     = Mất hơn 50% gói tin sẽ báo host down
+#comment     = Mất hơn 50% gói tin 3 lần liên tục sẽ báo host down
 
 +hostdown
 type = loss
@@ -219,7 +224,7 @@ comment     = độ trễ trong 2 lần gần nhất tăng hơn 1500% so với 2
 type = loss
 priority = 2
 edgetrigger = yes
-pattern = ==0%,==0%,>80%
+pattern = ==0%,==0%,>80%,>80%,>80%
 comment = mất hơn 80% gói tin đột ngột 
 
 #+recover80
@@ -227,7 +232,7 @@ comment = mất hơn 80% gói tin đột ngột
 #priority = 1
 #edgetrigger = yes
 #pattern = >80%,==0%,==0%
-#comment = Trở lại trạng thái bình thường sau khi mất gói hơn 80%
+#comment = Trở lại trạng thái bình thường sau khi mất gói hơn 80% (k dùng)
 ```
 
 Tham khảo: 
