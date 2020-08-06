@@ -4,4 +4,8 @@ Chạy lệnh
 
     smokeping --debug
 
-Sau khi lệnh chạy xong dữ liệu sẽ hiển thị đầy đủ trên biểu đồ.
+Hoặc
+
+    smokeping --config=/etc/smokeping/config --debug
+
+Sau khi lệnh chạy xong dữ liệu sẽ hiển thị đầy đủ trên biểu đồ. Nếu vẫn chưa thấy thì reboot lạy máy và khởi động lại dịch vụ.
