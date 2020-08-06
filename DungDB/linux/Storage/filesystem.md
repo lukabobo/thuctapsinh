@@ -10,6 +10,8 @@ Filesystem là các phương pháp và các cấu trúc dữ liệu mà một h�
 
 ## Các loại filesystem được Linux hỗ trợ:
 
+
+
 - Filesystem cơ bản: EXT2, EXT3, EXT4, XFS, Btrfs, JFS, NTFS,…
 - Filesystem dành cho dạng lưu trữ Flash: thẻ nhớ,…
 - Filesystem dành cho hệ cơ sở dữ liệu
@@ -25,6 +27,9 @@ Filesystem là các phương pháp và các cấu trúc dữ liệu mà một h�
 mount và umount 
 
 ## Các thư mục trong Linux:
+
+Filesystem của hệ điều hành Linux được tổ chức theo tiêu chuẩn cấp bậc của hệ thống tập tin Filesystem Hierarchy Standard ( FHS ). Tiêu chuẩn này định nghĩa mục đích của mỗi thư mục.
+
 1. `/` - Root
 Đây là nơi bắt đầu của tất cả các file và thư mục. Chỉ có root user mới có quyền ghi trong thư mục này. Chú ý rằng /root là thư mục home của root user chứ không phải là /.
 2. `/bin` - Chương trình của người dùng
