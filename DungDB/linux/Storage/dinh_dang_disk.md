@@ -19,6 +19,8 @@ Thông tin về các partition của ổ cứng sẽ được lưu trữ trên M
 
 #### MBR
 
+MBR được giới thiệu lần đầu tiên với IBM PC DOS 2.0 vào năm 1983. MBR chứa thông tin về cách phân vùng logical chứa các hệ thống tệp được sắp xếp trên đĩa. Nó chứa code thực thi(bộ tải khởi động) để hoạt động như một trình tải cho hệ điều hành được cài đặt. MBR cũng chỉ hỗ trợ tối đa bốn phân vùng chính, nếu bạn muốn nhiều hơn, bạn phải tạo một trong các phân vùng chính của mình thành một phân vùng mở rộng của Wap và tạo các phân vùng hợp lý bên trong nó. MBR sử dụng 32 bit để lưu trữ địa chỉ khối và đối với các đĩa cứng có các sectors 512 byte, MBR xử lý tối đa 2TB (2^32 × 512 byte).
+
 MBR là chuẩn phân chia ổ đĩa truyền thống, một ổ đĩa sẽ được chia thành các vùng nhỏ (sector) với dung lượng bằng nhau là 512 bytes. Trên Linux, một ổ đĩa cứng được chia thành nhiều partition với số hiệu như sau: `/dev/hda1`, `/dev/hda2`, `/dev/sda1`, `/dev/sda2`, `/dev/sdb1`,… Ta có thể dùng lệnh fdisk hoặc parted để hiển thị thông tin về ổ đĩa dùng MBR trên Linux.
 
 Đối với các ổ cứng kiểu cũ chỉ hỗ trợ MBR thì ta chỉ được phép có tối đa 4 primary partition trên 1 ổ cứng, extended partion cũng được coi là 1 primary partition. Toàn bộ các thông tin về partition sẽ được lưu trữ ở 512 bytes đầu tiên trên ổ đĩa vật lý (sector đầu tiên của ổ đĩa), sector này có tên là Master Boot Record.
@@ -29,7 +31,17 @@ MBR là chuẩn phân chia ổ đĩa truyền thống, một ổ đĩa sẽ đư
 
 GPT là chuẩn mới hơn, hỗ trợ đến 128 phân vùng trên 1 ổ đĩa vật lý. Thông tin về các partition sẽ được ghi thành nhiều bản rải rác khắp ổ vật lý. GPT hỗ trợ cơ chế kiểm tra và chỉnh sửa dữ liệu dựa trên CRC (cyclic redundancy check). Nhờ 2 cơ chế này, chuẩn GPT làm giảm tỷ lệ mất mát dữ liệu. Ngoài ra, nếu ta cần khởi tạo một phân vùng với dung lượng lớn hơn 2TB, ta sẽ phải dùng GPT vì MBR không trợ dung lượng lớn hơn 2 TB.
 
+GPT có thể có 128 phân vùng. GPT sử dụng 64 bit cho địa chỉ khối và cho các đĩa cứng có các sectors 512 byte, kích thước tối đa là 9,4 ZB (9,4 × 10^21 byte) hoặc 8ZiB.
+
 Ta có thể dùng lệnh `gdisk` hoặc `parted` để kiểm tra các ổ đĩa dùng GPT.
 
 Định dạng GPT => có nghĩa là máy tính đang chạy ở chuẩn UEFI.
 
+## Quy trình lắp mới một thiết bị lưu trữ gồm những bước sau:
+
+- Xác định chuẩn lưu thông tin về partition (MBR, GPT).
+- Gắn một ổ cứng mới vào server.
+- Chia partition cho ổ cứng.
+- Khởi tạo file system (ext4, xfs…) cho partition vừa mới được tạo.
+- Mount partition lên hệ thống.
+- Cấu hình auto mount partition khi reboot.

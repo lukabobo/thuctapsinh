@@ -94,6 +94,47 @@ Kiểm tra ở host 10.10.34.175
 
 ![Imgur](https://i.imgur.com/S15lhk9.png)
 
+### Clone Centos server với rsync
+
+Source Server – CentOS 7 – 10.10.34.175
+
+Destination Server – CentOS 7 – 10.10.34.177
+
+Cài đặt rsync ở cả 2 máy
+
+**Cấu hình ở source server:**
+
+Loại bỏ các thư mục không cần phải clone
+
+    vi /root/exclude-files.txt
+
+Thêm vào nội dung
+
+    /boot
+    /dev
+    /tmp
+    /sys
+    /proc
+    /backup
+    /etc/fstab
+    /etc/mtab
+    /etc/mdadm.conf
+    /etc/sysconfig/network*
+
+Tạo 1 file test 
+
+![Imgur](https://i.imgur.com/CtW24m4.png)
+
+Tiến hành clone
+
+    rsync -vPa -e 'ssh -o StrictHostKeyChecking=no' --exclude-from=/root/exclude-files.txt / 10.10.34.177:/
+
+![Imgur](https://i.imgur.com/GVmN4qI.png)
+
+Sau khi clone, sang Destination Server kiểm tra xem đã đầy đủ dữ liệu chưa
+
+![Imgur](https://i.imgur.com/PBesOP8.png)
+
 ## `parted`
 
 https://www.tecmint.com/parted-command-to-create-resize-rescue-linux-disk-partitions/
@@ -186,6 +227,5 @@ Reboot và kiểm tra lại bằng lệnh lsblk
 
 Partition /dev/sdb1 đã được tự động mount lên hệ thống khi boot
 
-## `rclone`
 
-https://www.tecmint.com/rclone-sync-files-from-cloud-storage/
+
