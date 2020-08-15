@@ -105,6 +105,8 @@ Quay trở lại màn hình cmd.
 
 Các tùy chọn khác bấm Enter để chọn mặc định
 
+Tiếp theo cấp quyền truy cập cho rclone tùy ý của bạn. Tôi chọn 1 (Full quyền)
+
 Bấm `y` để xác nhận.
 
 ![Imgur](https://i.imgur.com/eX0Va4d.png)

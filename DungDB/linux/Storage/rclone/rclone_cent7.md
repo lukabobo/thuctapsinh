@@ -143,8 +143,6 @@ Chọn một trong số sau:
 
 Ở đây tôi chọn Google drive (số 13)
 
-![Imgur](https://i.imgur.com/Hi8OiDO.png)
-
 Xác thực:
 
 Ở đây chúng ta cần nhập google application client ID và secret. Để trống 2 phần này (default) và tiếp tục. Nếu muốn tự tạo client ID và secret thì làm theo hướng dẫn ở dưới
@@ -179,6 +177,8 @@ Hướng dẫn tạo ở đây: https://rclone.org/drive/#making-your-own-client
 7. Chọn Desktop app. Click CREATE
 
 8. Như vậy là ta có Client ID và Client secret. Dùng thông tin này nhập vào rclone
+
+![Imgur](https://i.imgur.com/Hi8OiDO.png)
 
 ![Imgur](https://i.imgur.com/uQZaPT4.png)
 
