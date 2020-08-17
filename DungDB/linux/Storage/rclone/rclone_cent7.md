@@ -194,7 +194,13 @@ Sau đó chọn sử dụng auto config (y)
 
 Một cửa sổ sẽ bật lên ở trình duyệt web của bạn để xác thực.
 
-Ở đây tôi không thể xác thực trên Centos 7 minimal do không có trình duyệt web, nên tôi sẽ thực hiện cài rclone trên HĐH Windows. Sau khi cấu hình xong trên windows sẽ copy cấu hình lên Centos 7
+Ở đây tôi không thể xác thực trên Centos 7 minimal do không có trình duyệt web (Nên sử dụng hệ điều hành phiên bản có giao diện để việc xác thực dễ dàng hơn). Nên tôi sẽ thực hiện cài rclone trên HĐH Windows. Sau khi cấu hình xong trên Windows sẽ copy cấu hình lên Centos 7
+
+Tải file cài đặt ở đây: https://rclone.org/downloads/
+
+![Imgur](https://i.imgur.com/haNhG4I.png)
+
+Giải nén file đã tải về. Bật CMD, cd vào thư mục đã giải nén và sử dụng như trên Linux.
 
 ![Imgur](https://i.imgur.com/SSdTGcq.png)
 
@@ -204,13 +210,7 @@ Sau khi xác thực, tiếp tục chọn n
 
 ![Imgur](https://i.imgur.com/d0gY33B.png)
 
-Sau đó copy file cấu hình lên Centos 7. 
-
-Tải file cài đặt ở đây: https://rclone.org/downloads/
-
-!![Imgur](https://i.imgur.com/haNhG4I.png)
-
-Giải nén file đã tải về. Bật CMD, vào thư mục đã giải nén và sử dụng như trên Linux.
+Copy file cấu hình lên Centos 7. 
 
 Chạy lệnh sau để lấy đường dẫn file config, sau đó copy sang máy Centos 7. Ghi đè vào file config trên máy Centos 7
 
@@ -243,10 +243,12 @@ Ví dụ:
 
 ![Imgur](https://i.imgur.com/m2jtLGj.png)
 
-### Liệt kê các file bên trong thư mục
+### Liệt kê toàn bộ các file bên trong thư mục
 ```
 rclone ls <remote-dir-name>:<another-dir>
 ```
+
+![Imgur](https://i.imgur.com/2JKLyz8.png)
 
 ### Copy dữ liệu:
 
@@ -353,8 +355,68 @@ rclone --max-size 100M delete ggdrive:test1
 
 Đọc thêm về các lệnh rclone tại đây: https://rclone.org/docs/
 
+## Sử dụng để backup dữ liệu
+```
+/usr/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s "/thư/mục/nguồn" "drive_của_bạn:thư_mục_backup"
+```
+Ý nghĩa các thông số trong câu lệnh:
+
+- `copy`: Sao chép các file từ máy tính cục bộ vào bộ nhớ từ xa, bỏ qua các tệp đã có trên bộ nhớ từ xa.
+- `--update`: Bỏ qua bất kỳ tệp nào trên bộ lưu trữ từ xa có thời gian sửa đổi mới hơn tệp trên máy tính cục bộ.
+- `--verbose`: Cung cấp thông tin về mọi tệp được chuyển.
+- `--transfers 30`: Đặt số lượng file để sao chép cùng 1 lúc
+- `--checkers 8`: Số lượng "bộ kiểm tra" (checker) để chạy song song. Bộ kiểm tra giám sát quá trình chuyển giao đang diễn ra.
+- `--contimeout 60s`: Connection timeout. Nó đặt thời gian mà rclone sẽ cố gắng tạo kết nối với bộ lưu trữ từ xa (60s).
+- `--timeout 300s`: Nếu quá trình chuyển giao trở nên không hoạt động trong khoảng thời gian này (300s), nó được coi là bị hỏng và bị ngắt kết nối.
+- `--retries 3`: Nếu có từng này lỗi (3), toàn bộ hành động sao chép sẽ được khởi động lại.
+- `--low-level-retries 10`: Low-level retry cố gắng lặp lại một hoạt động không thành công, chẳng hạn như một yêu cầu HTTP. Giá trị này đặt giới hạn cho số lần thử lại (10).
+- `--stats 1s`: rclone có thể cung cấp số liệu thống kê về các tệp đã chuyển. Điều này đặt tần suất cập nhật thống kê thành một giây.
+- `/thư/mục/nguồn`: Thư mục cục bộ mà chúng ta sẽ sao chép vào bộ nhớ từ xa.
+- `drive_của_bạn:thư_mục_backup`: Thư mục đích trong bộ nhớ từ xa. Lưu ý “drive_của_bạn”, là tên cho kết nối từ xa này trong cấu hình rclone. Dấu hai chấm “:” được sử dụng làm dấu phân cách giữa tên bộ nhớ từ xa và tên thư mục. Các thư mục con được phân tách bằng dấu gạch chéo “/” thông thường. Nếu thư mục đích không tồn tại, nó sẽ được tạo.
+
+Thay đổi `/thư/mục/nguồn` và `drive_của_bạn:thư_mục_backup` tùy ý bạn
+
+**Test hoạt động của câu lệnh:**
+
+Tôi có một số file đặt trong thư mục /root/dulieu. Tôi sẽ copy sang google drive
+
+![Imgur](https://i.imgur.com/9W8QK0S.png)
+
+Kết quả: 
+
+![Imgur](https://i.imgur.com/pZItnjW.png)
+
+Câu lệnh này có thể đặt trong một script để chạy crontab cho việc backup, cập nhật file theo chu kỳ. (Sử dụng lệnh copy tốn dung lượng lưu trữ hơn nhưng ít khả năng mất dữ liệu hơn lệnh sync)
+```
+#!/bin/bash
+
+/usr/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s "/thư/mục/nguồn" "drive_của_bạn:thư_mục_backup"
+```
+
+**Test script:**
+
+Thêm một file cmt.docx vào thư mục /root/dulieu
+
+![Imgur](https://i.imgur.com/wmmTkfg.png)
+
+Tạo script /tmp/bk.sh có nội dung
+```
+/usr/bin/rclone copy --update --verbose --transfers 30 --checkers 8 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s "/root/dulieu" "ggdrive:backup/dulieu"
+```
+Đặt crontab ví dụ, mỗi phút cập nhật file 1 lần 
+```
+* * * * * sh /tmp/bk.sh >/dev/null 2>&1
+```
+Kết quả:
+
+![Imgur](https://i.imgur.com/79IU1tF.png)
+
+File mới đã được cập nhật.
+
 ## Tham khảo:
 
 https://rclone.org/
 
 https://www.tecmint.com/rclone-sync-files-from-cloud-storage/
+
+https://www.howtogeek.com/451262/how-to-use-rclone-to-back-up-to-google-drive-on-linux/
