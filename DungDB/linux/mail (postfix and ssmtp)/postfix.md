@@ -92,3 +92,26 @@ Kiểm tra lại xem đã gửi mail thành công hay chưa
 Tôi đã nhận được mail vừa gửi
 
 ![Imgur](https://i.imgur.com/XiFmP6g.png)
+
+## Update
+
+Nếu không thể restart dịch vụ postfix thì vào file`/etc/postfix/main.cf`
+
+    vi /etc/postfix/main.cf
+
+Tìm và sửa lại 2 dòng
+
+    inet_interfaces = all
+    inet_protocols = all
+
+Nếu không gửi được mail với postfix, xem cách fix tại hiroom2.com/2017/05/14/centos-7-send-mail-with-postfix/
+
+![Imgur](https://i.imgur.com/SG0cT47.png)
+
+Truy cập vào với đúng tài khoảng email dung để gửi cảnh báo
+
+https://accounts.google.com/DisplayUnlockCaptcha
+
+Click tiếp tục
+
+![Imgur](https://i.imgur.com/vlVT6At.png)
