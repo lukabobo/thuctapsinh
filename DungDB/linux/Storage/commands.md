@@ -14,6 +14,8 @@ https://linuxhint.com/linux_mount_command/
 
 https://linuxize.com/post/how-to-mount-and-unmount-file-systems-in-linux/
 
+https://man7.org/linux/man-pages/man8/mount.8.html#FILESYSTEM-INDEPENDENT_MOUNT_OPTIONS
+
 ## `fdisk`
 
 https://www.tecmint.com/fdisk-commands-to-manage-linux-disk-partitions/
