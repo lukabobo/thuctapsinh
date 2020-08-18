@@ -1,5 +1,7 @@
 # Thêm host vào checkmk để giám sát
 
+Ví dụ dưới đây Thực hiện thêm host Centos7 vào checkmk để giám sát. Thực hiện đối với Ubuntu cũng tương tự.
+
 Đầu tiên cần SSH vào host cần giám sát
 
 Kiểm tra dịch vụ selinux
@@ -40,6 +42,10 @@ Khởi động xinetd
 
     systemctl start xinetd
     systemctl enable xinetd
+
+hoặc
+
+    service xinetd restart
 
 Mở port trên client để có thể giao tiếp với check_mk server
 
