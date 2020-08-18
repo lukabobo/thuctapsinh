@@ -14,7 +14,7 @@ Nếu kết quả trả về là `disabled` thì OK. Nếu kết quả khác th�
 
 Vào trang Checkmk của bạn. Chọn "Monitoring Agents". Chuột phải vào `check-mk-agent-1.6.0p15-1.noarch.rpm`. Copy đường dẫn này lại. (Đối với Centos thì copy đường dẫn `.rpm`, đối với Ubuntu thì copy đường dẫn `.deb`, đối với Windows thì copy đường dẫn `.msi`)
 
-![Imgur](https://i.imgur.com/eme0zQ8.png)
+![Imgur](https://i.imgur.com/k8IzGiT.png)
 
 Cài đặt gói wget
 
@@ -47,11 +47,11 @@ Mở port trên client để có thể giao tiếp với check_mk server
 
 Sửa các thông số chính xác như sau
 
-    only_from      = 14.225.16.147
+    only_from      = IP_của_bạn
     disable        = no
     port           = 6556
 
-![Imgur](https://i.imgur.com/jEaPiOX.png)
+![Imgur](https://i.imgur.com/0wKaEqU.png)
 
 Cài đặt gói `net-tools` để kiểm tra
 
@@ -67,9 +67,9 @@ Mở port trên firewall nếu firewall đang được mở. Nếu đã tắt fi
     firewall-cmd --add-port=6556/tcp --permanent
     firewall-cmd --reload
 
-Tiếp theo, quay lại trang http://14.225.16.147/monitoring. Click vào Host, chọn vào thư mục mà ta muốn thêm host cần giám sát. Ví dụ tôi sẽ đặt host này ở thư mục VM
+Tiếp theo, quay lại trang checkmk của bạn. Click vào Host, chọn vào thư mục mà ta muốn thêm host cần giám sát. Ví dụ tôi sẽ đặt host này ở thư mục VM
 
-![Imgur](https://i.imgur.com/XnmkjDk.png)
+![Imgur](https://i.imgur.com/m8sjGKn.png)
 
 Chọn **New host**
 
