@@ -73,7 +73,7 @@ Mở port trên firewall nếu firewall đang được mở. Nếu đã tắt fi
     firewall-cmd --add-port=6556/tcp --permanent
     firewall-cmd --reload
 
-Tiếp theo, quay lại trang checkmk của bạn. Click vào Host, chọn vào thư mục mà ta muốn thêm host cần giám sát. Ví dụ tôi sẽ đặt host này ở thư mục VM
+Tiếp theo, quay lại trang checkmk của bạn. Click vào **Hosts** ở phần **WATO**, chọn vào thư mục mà ta muốn thêm host cần giám sát. Ví dụ tôi sẽ đặt host này ở thư mục VM
 
 ![Imgur](https://i.imgur.com/m8sjGKn.png)
 
@@ -134,3 +134,120 @@ Ta thấy có dịch vụ đang hiển thị màu xám (Pending). Các dịch v�
 Click vào host đó. Click vào icon 3 gạch ngang. Chọn **Reschedule check**
 
 ![Imgur](https://i.imgur.com/oxezoWp.png)
+
+## Giám sát sự thay đổi của file
+
+SSH vào host cần giám sát sự thay đổi file
+
+Thêm plugin
+
+    vi /usr/lib/check_mk_agent/local/check_file_md5.py
+
+Nhập vào nội dung sau:
+
+```py
+#!/usr/bin/python
+import hashlib
+import ast
+
+# Khai bao cac file can kiem tra 
+# Vi du nhu sau FILES = ['/root/file1.txt', '/etc/passwd']
+FILES = []
+
+try:
+    r_file = open('/tmp/checkmk_md5')
+    value = r_file.read()
+    value_md5 = ast.literal_eval(value)
+except:
+    value_md5 = {}
+
+def check_file(name_f):
+    try:
+        a_file = open(name_f)
+        content = a_file.read()
+        md5 = hashlib.md5(content.encode()).hexdigest()
+        return md5
+    except:
+        return 0
+
+for file_c in FILES:
+    md5 = check_file(file_c)
+    try:
+        value_md5[file_c]
+    except:
+        # kiem tra lan dau tien
+        md5_change = {file_c:md5}
+        value_md5.update(md5_change)
+
+    if md5 == 0:
+        status = 2
+        statustxt = "CRITICAL: File not found"
+        md5_change = {file_c:md5}
+        value_md5.update(md5_change)
+
+    elif md5 == value_md5[file_c]:
+        status = 0
+        statustxt = "OK"
+    else:
+        status = 2
+        statustxt = "CRITICAL: File changes"
+        md5_change = {file_c:md5}
+        value_md5.update(md5_change)
+    print('{} File_md5:{} - {} status {}'.format(status, file_c, file_c, statustxt))
+
+file_w = open('/tmp/checkmk_md5', 'w')
+file_w.write(str(value_md5))
+file_w.close()
+```
+
+Khai báo những file cần kiểm tra vào dòng `FILES = []` lưu ý cần khai báo rõ đường dẫn đến file. 
+
+Ví dụ ở đây tôi sẽ giám sát file `/etc/shadow`
+
+![Imgur](https://i.imgur.com/uXneoM0.png)
+
+Nếu muốn giám sát nhiều hơn 1 file thì các file cách nhau bởi dấu phẩy. Ví dụ kiểm tra 2 file `/root/shadow` và `/etc/passwd` thì khai báo như sau:
+
+    FILES = ['/root/shadow', '/etc/passwd']
+
+Lưu lại nội dung file
+
+Thêm quyền thực thi cho file
+
+    chmod +x /usr/lib/check_mk_agent/local/check_file_md5.py
+
+Kiểm tra
+
+    check_mk_agent | grep "File_md5"
+
+Nếu thấy kết quả như sau (OK) tức là đã thành công
+
+![Imgur](https://i.imgur.com/jFfcPy8.png)
+
+Tiếp theo truy cập vào trang checkmk của bạn và thực hiện discover dịch vụ giám sát file vừa thêm tại host đó.
+
+Click vào **Hosts** ở phần **WATO**. Vào thư mục chứa host vừa thêm plugin. Tick vào host đó và chọn **Discovery**
+
+![Imgur](https://i.imgur.com/ZdoBcaC.png)
+
+Tick vào ô  **Add unmonitored services and new host labels** và click **Start**
+
+![Imgur](https://i.imgur.com/f5391Tv.png)
+
+Ta sẽ thấy 1 dịch vụ đã được thêm
+
+![Imgur](https://i.imgur.com/hmdVI2z.png)
+
+Click **Back** và click **change** 
+
+![Imgur](https://i.imgur.com/I62rHwu.png)
+
+Click **Active affected**
+
+![Imgur](https://i.imgur.com/fFS0da2.png)
+
+Như vậy ta đã thêm giám sát sự thay đổi file cho host này xong. 
+
+Click vào host đó sẽ thấy dịch vụ đang chạy và đang giám sát file `/etc/shadow`
+
+![Imgur](https://i.imgur.com/PeNZy57.png)
