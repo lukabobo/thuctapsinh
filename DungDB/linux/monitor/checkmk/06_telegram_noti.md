@@ -188,3 +188,6 @@ Copy lại chatID này
 Trên UI checkmk, vào `Users`, tạo một user mới với chatID là chatID đã copy lúc nãy.
 
 Lưu lại và áp dụng thay đổi.
+
+
+File log lưu tại: `/omd/sites/monitoring/var/log/`

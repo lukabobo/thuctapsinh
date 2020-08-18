@@ -251,3 +251,9 @@ Như vậy ta đã thêm giám sát sự thay đổi file cho host này xong.
 Click vào host đó sẽ thấy dịch vụ đang chạy và đang giám sát file `/etc/shadow`
 
 ![Imgur](https://i.imgur.com/PeNZy57.png)
+
+Thử tạo một user trên host này để thay đổi nội dung file `/etc/shadow`
+
+Sau khi tạo một user mới, trạng thái dịch vụ trên sẻ trở thành như sau
+
+![Imgur](https://i.imgur.com/1K70WpV.png) 
