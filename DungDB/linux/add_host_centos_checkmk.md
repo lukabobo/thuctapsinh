@@ -12,7 +12,7 @@ Nếu kết quả trả về là `disabled` thì OK. Nếu kết quả khác th�
     sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
     setenforce 0
 
-Vào trang http://14.225.16.147/monitoring. Chọn "Monitoring Agents". Chuột phải vào `check-mk-agent-1.6.0p15-1.noarch.rpm`. Copy đường dẫn này lại. (Đối với Centos thì copy đường dẫn `.rpm`, đối với Ubuntu thì copy đường dẫn `.deb`, đối với Windows thì copy đường dẫn `.msi`)
+Vào trang Checkmk của bạn. Chọn "Monitoring Agents". Chuột phải vào `check-mk-agent-1.6.0p15-1.noarch.rpm`. Copy đường dẫn này lại. (Đối với Centos thì copy đường dẫn `.rpm`, đối với Ubuntu thì copy đường dẫn `.deb`, đối với Windows thì copy đường dẫn `.msi`)
 
 ![Imgur](https://i.imgur.com/eme0zQ8.png)
 
@@ -22,7 +22,7 @@ Cài đặt gói wget
 
 Dùng gói wget download agent đã chọn ở bước trên
 
-    wget http://14.225.16.147/monitoring/check_mk/agents/check-mk-agent-1.6.0p15-1.noarch.rpm
+    wget http://<ip>/monitoring/check_mk/agents/check-mk-agent-1.6.0p15-1.noarch.rpm
 
 Cấp quyền thực thi cho file vừa download về
 
