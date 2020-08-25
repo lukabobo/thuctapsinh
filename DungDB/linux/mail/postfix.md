@@ -102,7 +102,7 @@ Nếu không thể restart dịch vụ postfix thì vào file`/etc/postfix/main.
 Tìm và sửa lại 2 dòng
 
     inet_interfaces = all
-    inet_protocols = all
+    inet_protocols = ipv4
 
 Nếu không gửi được mail với postfix, xem cách fix tại hiroom2.com/2017/05/14/centos-7-send-mail-with-postfix/
 
