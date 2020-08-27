@@ -111,5 +111,6 @@ Kiểm tra trên Dropbox sẽ thấy có file.
 
 Ngoài ra bạn có thể đồng bộ cả một thư mục lên Dropbox bằng câu lệnh sau:
 
-rclone sync /local/path remote:path
+    rclone sync /local/path remote:path
+
 Bằng cách này, ta có thể viết một số script rồi đặt trong crontab để backup các file mà ta mong muốn hàng ngày lên Dropbox.
