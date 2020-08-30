@@ -22,7 +22,7 @@ rclone có các tính năng:
 
 Dùng script
 
-    curl https://rclone.org/install.sh | sudo bash
+   curl https://rclone.org/install.sh | sudo bash
 
 Những gì script này làm là kiểm tra loại hệ điều hành mà nó được chạy và tải xuống tệp lưu trữ liên quan đến hệ điều hành đó. Sau đó, nó trích xuất kho lưu trữ và sao chép rclone binary sang `/usr/bin/clone `và cấp quyền `755` trên tệp.
 
@@ -46,7 +46,7 @@ Chạy lệnh sau để tạo file config, dùng để xác thực cho việc s�
 
 Màn hình sẽ xuất hiện
 
-[Imgur](https://i.imgur.com/ltPhxrG.png)
+![Imgur](https://i.imgur.com/ltPhxrG.png)
 
 Các option:
 
