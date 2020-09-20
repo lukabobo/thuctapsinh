@@ -140,9 +140,18 @@ Kiểm tra hoạt động các dịch vụ:
 
 ![Imgur](https://i.imgur.com/SOKYmY9.png)
 
+Kiểm tra gửi và nhận mail
+
+Gửi mail:
+
+![Imgur](https://i.imgur.com/v6kwycq.png)
+
+![Imgur](https://i.imgur.com/syrrxKf.png)
+
+Nhận mail:
 
 
-
+![Imgur](https://i.imgur.com/Oughtxk.png)
 
 
 
