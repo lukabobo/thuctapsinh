@@ -213,11 +213,29 @@ DKIM là viết tắt của DomainKeys Identified Mail. Nó hoạt động bằn
 
 Xét về mặt kỹ thuật, DKIM sẽ kết hợp tên miền đã đăng ký với một email bằng cách gán cho nó một chữ ký số. Công việc xác minh được thực hiện bằng cách dùng khóa công khai của người đăng ký trong DNS dưới dạng bảng ghi TXT(TXT record). Trong đó, chữ ký hợp lệ phải đảm bảo được số phần của email chưa được sửa đổi từ khi gán chữ ký vào. Chữ ký DKIM thường chỉ được cơ sở hạ tầng gắn kết hoặc xác nhận chứ không phải tác giả hay người nhận thư.
 
+Nguyên lý:
+
+Người gửi tạo một đoạn hash MD5 của một vài thành phần của email (ví dụ email header). Người gửi dùng một private key (chỉ có người này biết) để mã hóa đoạn MD5 hash đó. Chuỗi mã hóa được chèn vào mail, được biết đến là chữ ký DKIM. Người gửi lưu lại public key trong bản ghi DNS.
+
+Người nhận tìm thấy public key từ DNS của tên miền đó. Người nhận sau đó dùng public key để giải mã chữ ký DKIM từ email về lại đoạn MD5 hash. Người nhận tạo ra một đoạn MD5 hash mới từ các thành phần của email được ký bởi DKIM, và so sánh nó với đoạn MD5 hash gốc. Nếu chúng khớp nhau thì người nhận sẽ biết được:
+- Email được gửi từ chủ của tên miền. (Gần như không thể để giả mạo chữ ký DKIM đã giải mã về đoạn MD5 hash gốc sử dụng public key)
+- Các phần tử của email được DKIM ký không bị thay đổi khi chuyển tiếp (nếu không thì đoạn MD5 hash ban đầu và đoạn MD5 hash do người nhận tạo sẽ không khớp).
+
+Điểm thiếu sót của DKIM là nó chỉ có thể bảo vệ thư đã được ký, nhưng nó không cung cấp cơ chế để chứng minh rằng một thư chưa ký lẽ ra đã được ký.
+
 ## Bản ghi SPF
 
 SPF (Sender Policy Framework) hoạt động với nguyên tắc xác thực một email server có được gửi email dưới tên một domain nào đó. Trong trường hợp nhận diện được email mới đến từ một địa chỉ IP không phù hợp, email sẽ được chuyển đến hộp thư Spam.
 
 Về nguyên lý hoạt động SPF sẽ yêu cầu lập hệ thống tên miền, khai báo các máy chủ có thể gửi thư từ một miền cụ thể. Khi nhận mail, người nhận sẽ thông qua truy vấn DNS để xác thực lại địa chỉ người gửi và địa chỉ IP có phù hợp hay không, để đưa ra kết luận địa chỉ thật hay giả và có nên nhận mail hay không.
+
+Nguyên lý:
+
+SPF cho phép miền người gửi công bố công khai máy chủ MTA (IP) nào có thể gửi email thay mặt miền đó.
+
+Server người nhận kiểm tra xem SPF có tồn tại trên DNS cho tên miền trong địa chỉ đến của mail (FROM). Nếu SPF có tồn tại, người nhận kiểm tra IP của server gửi có trùng với danh sách IP trong SPF không.
+
+Điểm thiếu sót của SPF là nó xác thực máy chủ gốc chỉ xem xét tên miền trong địa chỉ MAIL FROM, không phải header thư địa chỉ from. Địa chỉ MAIL FROM là địa chỉ email mà máy chủ nhận sử dụng để thông báo cho máy chủ gửi về các vấn đề gửi. Vấn đề với hạn chế này là địa chỉ From là những gì người nhận nhìn thấy trong ứng dụng email của họ.
 
 ## Bản ghi DRMARC
 
@@ -233,3 +251,18 @@ DMARC policy được cấu hình trong DNS. Thường có với giá trị reje
 
 ![Imgur](https://i.imgur.com/C0zv7q6.png)
 
+Nguyên lý: 
+
+DMARC được xây dựng dựa trên SPF và DKIM để giải quyết những thiếu sót của hai tiêu chuẩn xác thực này. DMARC cho phép thực thi xác thực DKIM hoặc SPF và xác nhận rằng địa chỉ hiển thị From là xác thực.
+
+Người gửi thêm chính sách DMARC trong DNS.
+
+Người nhận
+- tra cứu chính sách DMARC trong DNS;
+- thực hiện xác thực chữ ký DKIM và / hoặc xác thực SPF;
+- thực hiện kiểm tra liên kết miền;
+- áp dụng chính sách DMARC.
+
+Việc liên kết miền bao gồm việc xác minh rằng địa chỉ From (địa chỉ được hiển thị cho người nhận cuối cùng) khớp với:
+- Với SPF, tên miền MAIL FROM
+- Với DKIM, DKIM d= domain (miền ký tên được bao gồm trong header chữ ký DKIM cùng với mã hash được mã hóa)
