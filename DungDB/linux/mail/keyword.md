@@ -12,6 +12,8 @@ https://blog.tinohost.com/ptr-record-la-gi/
 
 https://kienthuc.pavietnam.vn/article/Email-Server/Huong-dan-Thu-thuat/DMARC-la-gi?-Tai-sao-DMARC-lai-quan-trong-doi-voi-Mail-Server?.html
 
+https://blog.tinohost.com/spf-dkim-la-gi-tao-ban-ghi-dkim/
+
 https://wiki.matbao.net/dmarc-la-gi-huong-dan-cach-tao-dmarc-record-don-gian-nhat/
 
 ## POP3
@@ -207,23 +209,14 @@ Lý do bạn cần cập nhật PTR Record?
 - Cần chứng thực domain đó khi phân giải ngược đúng IP server.
 - Tên miền phân giải ngược đó là duy nhất cho server của bạn như mail server.
 
-## Bản ghi DKIM
-
-DKIM là viết tắt của DomainKeys Identified Mail. Nó hoạt động bằng cách xác minh tên miền của một email đến và chứng minh email này là thật. Giúp người dùng kiểm tra một email có xuất xứ từ một miền cụ thể được ủy quyền bởi chủ sở hữu của miền đó, chặn các địa chỉ người gửi giả.
-
-Xét về mặt kỹ thuật, DKIM sẽ kết hợp tên miền đã đăng ký với một email bằng cách gán cho nó một chữ ký số. Công việc xác minh được thực hiện bằng cách dùng khóa công khai của người đăng ký trong DNS dưới dạng bảng ghi TXT(TXT record). Trong đó, chữ ký hợp lệ phải đảm bảo được số phần của email chưa được sửa đổi từ khi gán chữ ký vào. Chữ ký DKIM thường chỉ được cơ sở hạ tầng gắn kết hoặc xác nhận chứ không phải tác giả hay người nhận thư.
-
-Nguyên lý:
-
-Người gửi tạo một đoạn hash MD5 của một vài thành phần của email (ví dụ email header). Người gửi dùng một private key (chỉ có người này biết) để mã hóa đoạn MD5 hash đó. Chuỗi mã hóa được chèn vào mail, được biết đến là chữ ký DKIM. Người gửi lưu lại public key trong bản ghi DNS.
-
-Người nhận tìm thấy public key từ DNS của tên miền đó. Người nhận sau đó dùng public key để giải mã chữ ký DKIM từ email về lại đoạn MD5 hash. Người nhận tạo ra một đoạn MD5 hash mới từ các thành phần của email được ký bởi DKIM, và so sánh nó với đoạn MD5 hash gốc. Nếu chúng khớp nhau thì người nhận sẽ biết được:
-- Email được gửi từ chủ của tên miền. (Gần như không thể để giả mạo chữ ký DKIM đã giải mã về đoạn MD5 hash gốc sử dụng public key)
-- Các phần tử của email được DKIM ký không bị thay đổi khi chuyển tiếp (nếu không thì đoạn MD5 hash ban đầu và đoạn MD5 hash do người nhận tạo sẽ không khớp).
-
-Điểm thiếu sót của DKIM là nó chỉ có thể bảo vệ thư đã được ký, nhưng nó không cung cấp cơ chế để chứng minh rằng một thư chưa ký lẽ ra đã được ký.
-
 ## Bản ghi SPF
+
+SPF (SPF Record – Sender Policy Framework) là một hệ thống đánh giá email nhằm phát hiện email có phải được giả mạo hay không nhờ vào cơ chế cho phép hệ thống nhận email, kiểm tra email được gởi từ một domain có được xác quyền bởi người quản trị domain.
+
+Danh sách những máy chủ (host) sử dụng để gửi email được thông báo trong bảng ghi của DNS dưới dạng bảng ghi tên là TXT.
+Email gửi spam thường sử dụng địa chỉ email gửi giả mạo, vì vậy SPF được xem như là một kỹ thuật dùng để loại trừ email spam.
+
+Hiểu đơn giản, SPF là một bản ghi dạng TXT khai báo trên DNS, mục đích chính là để bên nhận mail có thế kiểm tra tính xác thực của nguồn gửi (theo IP).
 
 SPF (Sender Policy Framework) hoạt động với nguyên tắc xác thực một email server có được gửi email dưới tên một domain nào đó. Trong trường hợp nhận diện được email mới đến từ một địa chỉ IP không phù hợp, email sẽ được chuyển đến hộp thư Spam.
 
@@ -236,6 +229,61 @@ SPF cho phép miền người gửi công bố công khai máy chủ MTA (IP) n�
 Server người nhận kiểm tra xem SPF có tồn tại trên DNS cho tên miền trong địa chỉ đến của mail (FROM). Nếu SPF có tồn tại, người nhận kiểm tra IP của server gửi có trùng với danh sách IP trong SPF không.
 
 Điểm thiếu sót của SPF là nó xác thực máy chủ gốc chỉ xem xét tên miền trong địa chỉ MAIL FROM, không phải header thư địa chỉ from. Địa chỉ MAIL FROM là địa chỉ email mà máy chủ nhận sử dụng để thông báo cho máy chủ gửi về các vấn đề gửi. Vấn đề với hạn chế này là địa chỉ From là những gì người nhận nhìn thấy trong ứng dụng email của họ.
+
+## Bản ghi DKIM
+
+DKIM ( DomainKeys Identified Mail) là một phương pháp xác thực e-mail bằng chữ ký số của miền gửi thư, trong đó khóa công khai thường được công bố trên DNS dưới dạng một TXT record.
+Khi gửi thư, bộ ký thư sẽ chèn lên đầu thư một trường DKIM-Signature có nội dung đặc biệt. 
+
+Nó hoạt động bằng cách xác minh tên miền của một email đến và chứng minh email này là thật. Giúp người dùng kiểm tra một email có xuất xứ từ một miền cụ thể được ủy quyền bởi chủ sở hữu của miền đó, chặn các địa chỉ người gửi giả.
+
+Xét về mặt kỹ thuật, DKIM sẽ kết hợp tên miền đã đăng ký với một email bằng cách gán cho nó một chữ ký số. Công việc xác minh được thực hiện bằng cách dùng khóa công khai của người đăng ký trong DNS dưới dạng bảng ghi TXT(TXT record). Trong đó, chữ ký hợp lệ phải đảm bảo được số phần của email chưa được sửa đổi từ khi gán chữ ký vào. Chữ ký DKIM thường chỉ được cơ sở hạ tầng gắn kết hoặc xác nhận chứ không phải tác giả hay người nhận thư.
+
+Hoạt động:
+
+Đây là một phương pháp xác thực chứ không phải là một phương pháp chống spam. Nhưng vì có tính năng đảm bảo thư là thật (địa chỉ người gửi, hay ít nhất tên miền gửi thư là thật) trong khi thực tế đa số spam đều là thư giả mạo (mạo tên người khác, tên miền khác) nên nó hỗ trợ việc chống spam.
+
+DKIM cung cấp cho hai hoạt động riêng biệt: chữ ký và xác minh. Một trong số chúng có thể được xử lý bởi một mô-đun của một tác nhân chuyển thư (MTA).
+
+Tùy theo hệ thống Mail server khác nhau sẽ có hướng dẫn khác nhau về cấu hình DKIM ở phía server, nhưng hầu hết đều phải thực hiện các bước:
+
+**Bước 1:** Sinh ra cặp khóa private/public, có nhiều phần mềm hỗ trợ việc này (ví dụ: OpenSSL)
+
+**Bước 2:** Đưa khóa Public lên khai báo bản ghi TXT trên DNS theo đúng domain gửi email.
+
+**Bước 3:** Cấu hình Mail server sử dụng khóa private để ký vào email trước khi gửi email. Khóa này chỉ lưu trên Mail server nên không thể giả mạo.
+
+Xử lý ở bên nhận:
+
+**Bước 1:** Nhận được email từ bên gửi và thấy email có thông điệp được mã hóa do cấu hình DKIM.
+
+**Bước 2:** Query DNS để lấy khóa public của domain bên gửi để giải mã, nếu giả mã đúng thì xác nhận nguồn gửi và email đảm báo, ngược lại sẽ tùy chính sách của bên nhận để từ chối hoặc nhận email.
+
+Nguyên lý:
+
+Người gửi tạo một đoạn hash MD5 của một vài thành phần của email (ví dụ email header). Người gửi dùng một private key (chỉ có người này biết) để mã hóa đoạn MD5 hash đó. Chuỗi mã hóa được chèn vào mail, được biết đến là chữ ký DKIM. Người gửi lưu lại public key trong bản ghi DNS.
+
+Người nhận tìm thấy public key từ DNS của tên miền đó. Người nhận sau đó dùng public key để giải mã chữ ký DKIM từ email về lại đoạn MD5 hash. Người nhận tạo ra một đoạn MD5 hash mới từ các thành phần của email được ký bởi DKIM, và so sánh nó với đoạn MD5 hash gốc. Nếu chúng khớp nhau thì người nhận sẽ biết được:
+- Email được gửi từ chủ của tên miền. (Gần như không thể để giả mạo chữ ký DKIM đã giải mã về đoạn MD5 hash gốc sử dụng public key)
+- Các phần tử của email được DKIM ký không bị thay đổi khi chuyển tiếp (nếu không thì đoạn MD5 hash ban đầu và đoạn MD5 hash do người nhận tạo sẽ không khớp).
+
+Điểm thiếu sót của DKIM là nó chỉ có thể bảo vệ thư đã được ký, nhưng nó không cung cấp cơ chế để chứng minh rằng một thư chưa ký lẽ ra đã được ký.
+
+### Nhận xét – So sánh SPF và DKIM
+
+Giống nhau
+
+Cả hai SPF và DKIM cố gắng để xác nhận tính xác thực của một người gửi tin nhắn bằng cách nhìn vào tên miền gửi và đủ điều kiện mà máy chủ gửi tin nhắn là hợp pháp.
+
+Khác nhau
+
+SPF và DKIM mỗi phương pháp tiếp cận nhiệm vụ này khác nhau và có phương pháp riêng độc đáo.
+
+Mục tiêu chính khác nhau: SPF là để kiểm soát email giả mạo.
+
+Phương thức khác nhau: Không giống như Sender Policy Framework (SPF) xác nhận một tin nhắn ở mức phong bì bằng cách sử dụng các tiêu đề Return-Path, DKIM xác nhận một tin nhắn bằng cách sử dụng từ tiêu đề.
+
+Cấu hình thiết lập: Nếu SPF chỉ đơn giản đòi hỏi phải bổ sung thêm một mục nhập văn bản DNS của tên miền của bạn thì DKIM cấu hình phức tạp hơn so với SPF vì phải yêu cầu các thành phần phía máy chủ để xử lý chữ ký DKIM. Email Hầu hết các nhà cung cấp hosting hỗ trợ DKIM và có thể hỗ trợ bạn thiết lập DomainKeys cho tên miền của bạn và ghi văn bản cần thiết trong DNS của bạn để cho phép ký DKIM.
 
 ## Bản ghi DRMARC
 
