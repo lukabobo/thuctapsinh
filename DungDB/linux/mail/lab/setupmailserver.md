@@ -129,3 +129,11 @@ Kiểm tra Maildir
     cat 1601538688.Vfd01I60019M965890.mail.doanbadung.xyz
 
 ![Imgur](https://i.imgur.com/7tID7SZ.png)
+
+## Đăng nhập vào thunderbird với user cent@doanbadung.xyz và kiểm tra
+
+![Imgur](https://i.imgur.com/lVSpKXB.png)
+
+![Imgur](https://i.imgur.com/71yVsep.png)
+
+## 
