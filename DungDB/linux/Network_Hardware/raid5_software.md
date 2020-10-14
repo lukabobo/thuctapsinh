@@ -71,7 +71,7 @@ Thêm dòng này vào file `/etc/fstab`
 
 Thực hiện reboot để thấy kết quả.
 
-![Imgur](https://i.imgur.com/AGEfIdO.png)
+![Imgur](https://i.imgur.com/ppgAWMr.png)
 
 Ta thấy ta ở đây `/home` có dung lượng xấp xỉ 150GB. Bằng tổng dung lượng 4 ổ 50GB trừ ra 1 ổ. Đúng như lý thuyết RAID 5.
 
