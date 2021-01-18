@@ -6,6 +6,8 @@ Hướng dẫn: https://news.cloud365.vn/zabbix-giam-sat-hp-ilo-su-dung-zabbix/
 
 ![Imgur](https://i.imgur.com/I1riP1R.png)
 
+
+
 Kết quả:
 
 ![Imgur](https://i.imgur.com/ipLBr4L.png)

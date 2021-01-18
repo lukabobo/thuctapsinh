@@ -47,6 +47,10 @@ Khởi động xinetd
     systemctl start xinetd
     systemctl enable xinetd
 
+hoặc
+
+    service xinetd restart
+
 Cài đặt gói `net-tools` để kiểm tra dễ dàng hơn
 
     yum install net-tools -y

@@ -1,6 +1,8 @@
 # Note thực tế
 
-sử dụng agent và active check ICMP đối với các host cần giám sát. Gặp hiện tượng một loạt các host có cảnh báo down xong up lại ngay trong 1 phút sau.
+Checkmk server không nằm cùng dải mạng với các host đang giám sát.
+
+Sử dụng agent và active check ICMP đối với các host cần giám sát. Gặp hiện tượng một loạt các host có cảnh báo down xong up lại ngay trong 1 phút sau.
 
 ## Hướng giải quyết:
 
@@ -21,4 +23,8 @@ Nếu các hiện tượng kia vẫn diễn ra.
 Nếu hiện tượng kia vẫn còn thì ta sử dụng delay cảnh báo lại 2 phút, nếu trong 2 phút mà host, service đó up lại thì sẽ không gửi cảnh báo
 
 `Delay host notifications` và  `Delay service notifications`
+
+Điều kiện là 2 cái này lớn hơn 1:
+
+`Maximum number of check attempts for service`, `Maximum number of check attempts for host`
 
