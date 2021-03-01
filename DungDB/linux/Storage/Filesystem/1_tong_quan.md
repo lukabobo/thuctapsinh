@@ -80,7 +80,6 @@ File system chịu trách nhiệm tổ chức file và directories, chỉ địn
 
 Thông thường, nhà phân phối thường cấu hình với 1 file system duy nhất trên toàn thiết bị lưu trữ. 1 số file system với thuộc tính khác nhau có thể cùng được sử dụng. VD: browser cache, được cấu hình để lưu trong nhưng bộ đệm cấp phát nhỏ, cho phép xóa, tạo mới liên tục mà không ảnh hưởng đến hệ thống lưu trữ. Bên cạnh đó, 1 số hệ thống đám mây sử dụng "disk images" sử dụng file system khác nhau. Ví dụ dễ thấy nhất là ảo hóa, user có thể chạy định dạng ext4 của Linux trên máy ảo, mà máy ảo đó được lưu trữ trên định dạng NTFS windows. Ext4 file system được định dạng lại disk image, mà disk image được lưu trên NTFS host.
 
-
 # Tham khảo:
 
 https://blogd.net/linux/tong-quan-ve-filesystem-tren-linux/
