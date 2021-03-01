@@ -80,39 +80,6 @@ File system chịu trách nhiệm tổ chức file và directories, chỉ địn
 
 Thông thường, nhà phân phối thường cấu hình với 1 file system duy nhất trên toàn thiết bị lưu trữ. 1 số file system với thuộc tính khác nhau có thể cùng được sử dụng. VD: browser cache, được cấu hình để lưu trong nhưng bộ đệm cấp phát nhỏ, cho phép xóa, tạo mới liên tục mà không ảnh hưởng đến hệ thống lưu trữ. Bên cạnh đó, 1 số hệ thống đám mây sử dụng "disk images" sử dụng file system khác nhau. Ví dụ dễ thấy nhất là ảo hóa, user có thể chạy định dạng ext4 của Linux trên máy ảo, mà máy ảo đó được lưu trữ trên định dạng NTFS windows. Ext4 file system được định dạng lại disk image, mà disk image được lưu trên NTFS host.
 
-## FUSE (Filesystem in Userspace)
-
-Filesystem in Userspace (FUSE) là một lõi module nạp được cho các hệ thống máy tính chạy hệ điều hành họ Unix, cho phép người dùng thông thường có khả năng tạo các hệ thống tệp mà không cần chỉnh sửa mã kernel
-
-Đây là kết quả đạt được khi chạy các mã hệ thống tệp trong không gian người dùng, trong khi module FUSE chỉ cung cấp "cầu nối" đến giao diện kernel thực sự. FUSE đã chính thức được tích hợp vào nhân Linux từ phiên bản 2.6.14.
-
-FUSE rất hữu dụng trong việc ghi các hệ thống tệp ảo. Không như các kiểu hệ thống tệp khác, ghi và nhận trực tiếp dữ liệu từ đĩa, hệ thống tệp ảo không lưu trữ dữ liệu.
-
-Phát hành dưới giấy phép GNU General Public License và GNU Lesser General Public License, FUSE là phần mềm tự do.
-
-FUSE có các bản cho Linux, FreeBSD, NetBSD (cũng như PUFFS), OpenSolaris, và Mac OS X.
-
-## Truy xuất filesystem
-
-Các thông tin này cần được truy xuất và đọc vào bộ nhớ máy tính để xử lý. Thông tin trong tập tin có thể được truy xuất bằng nhiều cách.
-
-### Truy xuất tuần tự
-
-- Phương pháp đơn giản nhất, Thông tin trong tập tin được xử lý có thứ tự
-- Chế độ truy xuất này là thông dụng nhất. VD: bộ soạn thảo và biên dịch
-
-### Truy xuất trực tiếp
-
-- Truy xuất trực tiếp (hay truy xuất tương đối)
-- Tập tin được hình thành từ các logical records có chiều dài không đổi
-- Cho phép người lập trình đọc và viết các mẫu tin nhanh chóng, không theo thứ tự
-- Để truy xuất trực tiếp, tập tin được hiển thị như một chuỗi các khối hay mẫu tin được đánh số
-- Phương pháp được sử dụng truy xuất tức thời lượng lớn thông tin (pp cơ sở dữ liệu).
-### Các phương pháp truy xuất khác
-
-- Được xây dựng trên cơ sở của phương pháp truy xuất trực tiếp
-- Việc xây dựng chỉ mục cho tập tin. Chỉ mục chứa các con trỏ chỉ tới các khối khác
-- Để tìm một mẫu tin trong tập tin - tìm chỉ mục - con trỏ để truy xuất tập tin trực tiếp và tìm mẫu tin mong muốn
 
 # Tham khảo:
 
