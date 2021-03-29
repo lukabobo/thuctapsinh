@@ -125,7 +125,11 @@ Cài đặt epel-release & Update
 ```
 yum install epel-release -y
 yum update -y
+```
+
 Stop firewalld Disable Selinux
+
+```
 systemctl disable firewalld
 systemctl stop firewalld
 sudo systemctl disable NetworkManager
