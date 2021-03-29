@@ -1,6 +1,6 @@
 # Note lại cách đóng image Centos 7
 
-## Bước 1:Trên KVM host tạo máy ảo CentOS7
+## Bước 1: Trên KVM host tạo máy ảo CentOS7
 
 Tạo ổ cứng cho máy ảo
 
@@ -98,9 +98,9 @@ Tắt VM vào tạo 1 bản snapshot
 Tiến hành tắt máy ảo và xử lí một số bước sau trên KVM host:
 
 - Chỉnh sửa file `.xml` của máy ảo, bổ sung chỉnh sửa channel trong (Thường thì CentOS mặc định đã cấu hình sẵn phần này) mục đích để máy host giao tiếp với máy ảo sử dụng qemu-guest-agent
-
+```
     virsh edit centos7.0
-
+```
 với `centos*` là tên máy ảo
 
 ```
@@ -113,6 +113,9 @@ với `centos*` là tên máy ảo
 </devices>
 ...
 ```
+Trên webvirt thì tìm vào mục XML như trong hình dưới để sửa 
+![Imgur](https://i.imgur.com/ssBV9Sa.png)
+
 ## Bước 3
 
 Bước 3: Cấu hình máy ảo và cài đặt các package
@@ -240,7 +243,7 @@ Chạy 2 lệnh để kiểm tra
 
 Tắt VM và tạo 1 bản snapshot
 
-## Bước 4: Cài đặt cấu hình các thành phần dể đóng image trên VM
+## Bước 4: Cài đặt cấu hình các thành phần để đóng image trên VM
 
 Start lại và ssh vào VM
 
