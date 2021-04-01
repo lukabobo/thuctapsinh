@@ -281,14 +281,16 @@ Cài đặt cloud-init và cloud-utils:
 Cấu hình console
 Để sử dụng nova console-log, bạn cần thay đổi option cho GRUB_CMDLINE_LINUX và lưu lại
 
-```
-sed -i 's/GRUB_CMDLINE_LINUX="crashkernel=auto rhgb quiet"/GRUB_CMDLINE_LINUX="crashkernel=auto console=tty0 console=ttyS0,115200n8"/g' /etc/default/grub
-grub2-mkconfig -o /boot/grub2/grub.cfg
-Để máy ảo trên OpenStack có thể nhận được Cloud-init cần thay đổi cấu hình mặc định bằng cách sửa đổi file /etc/cloud/cloud.cfg.
-sed -i 's/disable_root: 1/disable_root: 0/g' /etc/cloud/cloud.cfg
-sed -i 's/ssh_pwauth:   0/ssh_pwauth:   1/g' /etc/cloud/cloud.cfg
-sed -i 's/name: centos/name: root/g' /etc/cloud/cloud.cfg
-```
+
+    sed -i 's/GRUB_CMDLINE_LINUX="crashkernel=auto rhgb quiet"/GRUB_CMDLINE_LINUX="crashkernel=auto console=tty0 console=ttyS0,115200n8"/g' /etc/default/grub
+    grub2-mkconfig -o /boot/grub2/grub.cfg
+
+Để máy ảo trên OpenStack có thể nhận được Cloud-init cần thay đổi cấu hình mặc định bằng cách sửa đổi file `/etc/cloud/cloud.cfg`.
+
+    sed -i 's/disable_root: 1/disable_root: 0/g' /etc/cloud/cloud.cfg
+    sed -i 's/ssh_pwauth:   0/ssh_pwauth:   1/g' /etc/cloud/cloud.cfg
+    sed -i 's/name: centos/name: root/g' /etc/cloud/cloud.cfg
+
 Disable Default routing
 
     echo "NOZEROCONF=yes" >> /etc/sysconfig/network
@@ -353,11 +355,11 @@ Copy Images sang Node Controller
 Di chuyển image tới máy CTL, sử dụng câu lệnh sau
 
     source admin-openrc
-    qemu-img convert -O raw /root/image-create-ops-test/dungdb_cent7  /root/image-create-ops-test/dungdb_cent7
+    qemu-img convert -O raw /root/image-create-ops-test/dungdb_cent7  /root/image-create-ops-test/dungdb_cent7.raw
 
 ```
 glance image-create --name /root/image-create-ops-test/dungdb_cent7 \
---file /root/image-create-ops-test/dungdb_cent7.raw \
+--file dungdb_cent7.raw \
 --disk-format raw \
 --container-format bare \
 --visibility=public \
