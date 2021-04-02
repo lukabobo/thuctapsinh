@@ -55,6 +55,24 @@ Trong hướng dẫn này sẽ build version php 5.6 và 7.4
     ./build set php1_release 7.4
     ./build set php2_release 5.6
 
+Sửa file `/usr/local/directadmin/custombuild/options.conf`
+
+    vi /usr/local/directadmin/custombuild/options.conf 
+
+Sửa 2 dòng:
+
+    secure_php=yes
+
+![Imgur](https://i.imgur.com/vbSfKdA.png)
+
+và
+
+    downloadserver=files25.directadmin.com
+
+![Imgur](https://i.imgur.com/l8TuV9u.png)
+
+Sau đó build PHP
+
     ./build php n
     ./build rewrite_confs
 
@@ -68,6 +86,28 @@ Update và kiểm tra lại phiên bản
 
     csf -u
     csf -v
+
+Allow thêm port 465 outgoing
+
+    vi /etc/csf/csf.conf
+
+Thêm 465 vào dòng:
+
+    # Allow outgoing TCP ports
+    TCP_OUT = "20,21,22,25,53,80,110,113,443,587,993,995,2222,465"
+
+![Imgur](https://i.imgur.com/ymEMqfp.png)
+
+Sửa file `/etc/csf/csf.allow`
+
+    vi /etc/csf/csf.allow
+
+Xóa IP mặc định được allow đi. Thêm vào IP Nhân Hòa và google 
+
+    Include /etc/csf/google.allow
+    117.4.255.125
+
+![Imgur](https://i.imgur.com/eNORD17.png)
 
 ### Build Roundcube 
 
@@ -111,20 +151,3 @@ Tìm đến skin manager
 Chọn skin enhanced và click các nút Apply to all users, Set Global, Apply to Me
 
 ![Imgur](https://i.imgur.com/AaTeqSb.png)
-
-Các lưu ý sau buổi trao đổi với image DirectAdmin:
-1. Build thêm:
-- Roudcube
-- csf
-
-2. Build PHP:
-- 1: 7.4
-- 2: 5.6
-
-3. Check Version Apache: -> Update lên version apache mới nhất
-
-4. Đóng port 3306 (Mysql) chiều IN
-
-5. Đổi giao diện về giao diện cũ
-
-6. Secure thư mục /tmp
