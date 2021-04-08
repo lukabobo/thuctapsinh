@@ -369,3 +369,11 @@ glance image-create --name /root/image-create-ops-test/dungdb_cent7 \
 
 Image đã sẵn sàng để launch máy ảo.
 
+## Cloudinit
+
+```
+#cloud-config
+password: '{vps_password}'
+chpasswd: { expire: False }
+ssh_pwauth: True
+```
