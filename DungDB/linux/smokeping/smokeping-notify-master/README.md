@@ -28,7 +28,7 @@ touch /etc/smokeping/notify
 ## Clone repo đã custom cảnh báo
 
 ```sh
-git clone https://github.com/datkk06/smokeping-notify.git
+git clone https://github.com/lukabobo/thuctapsinh/tree/master/DungDB/linux/smokeping/smokeping-notify-master
 ```
 
 ## Backup lại source cũ và thay thế  bằng source custom đã clone về
