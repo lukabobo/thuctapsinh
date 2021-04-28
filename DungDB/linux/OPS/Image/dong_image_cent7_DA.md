@@ -152,6 +152,7 @@ Chọn skin enhanced và click các nút Apply to all users, Set Global, Apply t
 
 ![Imgur](https://i.imgur.com/AaTeqSb.png)
 
+<<<<<<< Updated upstream
 ## Cloudinit
 
 ```
@@ -252,3 +253,9 @@ rm -f /tmp/da_reset_passwd.sh
 echo "ifup ifcfg-eth0:1" >> /etc/rc.d/rc.local
 echo "service directadmin restart" >> /etc/rc.d/rc.local
 ```
+=======
+
+Update lại
+
+    yum -y update
+>>>>>>> Stashed changes
