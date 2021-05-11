@@ -1,46 +1,123 @@
 # Cấu hình cảnh báo qua email
 
-## Cài đặt và cấu hình postfix trên Centos 7
+## 1. Cài đặt và cấu hình postfix trên Centos 7
 
 Thực hiện theo hướng dẫn:
 
 https://news.cloud365.vn/huong-dan-gui-mail-dung-postfix/
 
-Nếu không thể restart dịch vụ postfix thì vào file`/etc/postfix/main.cf`
+Remove Sendmail
 
-    vi /etc/postfix/main.cf
+Trước tiên cần kiểm tra xem sendmail đã được cài đặt chưa bằng câu lệnh
 
-Tìm và sửa lại 2 dòng
+    rpm -qa | grep sendmail
+
+Nếu có kết quả trả về chứng tỏ sendmail đã được cài đặt. Ta cần remove nó
+
+    yum remove sendmail*
+
+Cài đặt postfix và một số gói liên quan
+
+    yum -y install postfix cyrus-sasl-plain mailx
+
+Đặt postfix như MTA mặc định của hệ thống
+
+    alternatives --set mta /usr/sbin/postfix
+
+Nếu câu lệnh bị lỗi và trả về output /usr/sbin/postfix has not been configured as an alternative for mta thì thực hiện lệnh sau:
+
+    alternatives --set mta /usr/sbin/sendmail.postfix
+
+Restart và enable postfix
+
+    systemctl restart postfix
+    systemctl enable postfix
+
+Configure Postfix
+Mở file main.cf để chỉnh sửa
+
+vi `/etc/postfix/main.cf`
+
+Thêm vào cuối file những dòng sau
+
+```
+myhostname = hostname.example.com
+relayhost = [smtp.gmail.com]:587
+smtp_use_tls = yes
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt
+smtp_sasl_security_options = noanonymous
+smtp_sasl_tls_security_options = noanonymous
+```
+
+
+Và tìm, sửa lại 2 dòng sau:
 
     inet_interfaces = all
     inet_protocols = all
 
-Nếu không gửi được mail với postfix, xem cách fix tại hiroom2.com/2017/05/14/centos-7-send-mail-with-postfix/
+Configure Postfix SASL Credentials
 
-![Imgur](https://i.imgur.com/SG0cT47.png)
+Tạo file `/etc/postfix/sasl_passwd` và thêm vào dòng sau
 
-Truy cập vào với đúng tài khoảng email dung để gửi cảnh báo
+    [smtp.gmail.com]:587 username:password
+
+Trong đó:
+
+- username: là địa chỉ email dùng để gửi mail
+- password: là password của email dùng để gửi mail
+
+Phân quyền cho file vừa tạo
+```
+postmap /etc/postfix/sasl_passwd
+chown root:postfix /etc/postfix/sasl_passwd*
+chmod 640 /etc/postfix/sasl_passwd*
+systemctl reload postfix
+```
+
+Cho phép ứng dụng truy cập gmail
+Nếu bạn sử dụng gmail làm địa chỉ người gửi thì bạn phải cho phép ứng dụng truy cập gmail của bạn
+
+Đăng nhập bằng gmail để thực hiện gửi mail đã khai báo bên trên trên trình duyệt và truy cập vào địa chỉ sau
+
+https://myaccount.google.com/lesssecureapps
+
+Cho phép ứng dụng kém an toàn: BẬT
+
+![Imgur](https://i.imgur.com/8A6qVIK.png)
 
 https://accounts.google.com/DisplayUnlockCaptcha
 
 Click tiếp tục
 
-![Imgur](https://i.imgur.com/vlVT6At.png)
+![Imgur](https://i.imgur.com/ydgTO0U.png)
 
-## Cấu hình trong file `/etc/smokeping/config`
+![Imgur](https://i.imgur.com/b2tmuFm.png)
+
+Gửi mail test:
+
+    echo "Đã gửi thành công" | mail -s "Mail kiểm tra" hocchudong2021@gmail.com
+
+Kết quả test:
+
+![Imgur](https://i.imgur.com/903fH6Z.png)
+
+
+## 2. Cấu hình trong file `/etc/smokeping/config`
 
     vi /etc/smokeping/config
 
 Sửa phần `*** Alerts ***` thành như sau:
 
-Tôi gửi cảnh báo đến dungz1207@gmail.com.
+Tôi gửi cảnh báo đến dungdb@gmail.com.
 
-Email dùng để gửi cảnh báo là doanbadungtmt@gmail.com
+Email dùng để gửi cảnh báo là hocchudong2021@gmail.com@gmail.com
 
 ```
 *** Alerts ***
-to = dungz1207@gmail.com
-from = doanbadungtmt@gmail.com
+to = dungdb@gmail.com
+from = hocchudong2021@gmail.com@gmail.com
 
 +someloss
 type = loss
@@ -96,53 +173,41 @@ Ví dụ:
 Trước khi sửa:
 
 ```
- + Site2
+ + Site1
 
- menu = Site2
- title = Site2
+ menu = Site1
+ title = Site1
 
- ++ Host1-173
+ ++ Host1-128
 
  menu = Host1
- title = 10.10.34.173
- host = 10.10.34.173
+ title = 10.10.10.128
+ host = 10.10.10.128
 
- ++ Host2-174
+ ++ Host2-129
  menu = Host2
- title = 10.10.34.174
- host = 10.10.34.174
-
-++ Host2-171
- menu = Host3
- title = 10.10.34.171
- host = 10.10.34.171
+ title = 10.10.10.129
+ host = 10.10.10.129
 ```
 
 Sau khi sửa:
 
 ```
- + Site2
+ + Site1
 
- menu = Site2
- title = Site2
+ menu = Site1
+ title = Site1
 
- ++ Host1-173
-
+ ++ Host1-128
  menu = Host1
  title = 10.10.34.173
  host = 10.10.34.173
  alerts = someloss,offlineatstartup,hostdown_with_state,rttdetect,rtt_avg_increased,lossdetect
 
- ++ Host2-174
+ ++ Host2-129
  menu = Host2
- title = 10.10.34.174
- host = 10.10.34.174
- alerts = someloss,offlineatstartup,hostdown_with_state,rttdetect,rtt_avg_increased,lossdetect
-
-++ Host2-171
- menu = Host3
- title = 10.10.34.171
- host = 10.10.34.171
+ title = 10.10.10.129
+ host = 10.10.10.129
  alerts = someloss,offlineatstartup,hostdown_with_state,rttdetect,rtt_avg_increased,lossdetect
 ```
 
@@ -151,7 +216,7 @@ Sau khi sửa file cấu hình cần phải khởi động lại dịch vụ htt
     systemctl restart httpd
     systemctl restart smokeping
 
-Thử tắt host 10.10.10.173 thử xem có nhận được cảnh báo không.
+Thử tắt host 10.10.10.129 thử xem có nhận được cảnh báo không.
 
 **Kết quả:**
 
@@ -159,7 +224,7 @@ Thử tắt host 10.10.10.173 thử xem có nhận được cảnh báo không.
 
 ![Imgur](https://i.imgur.com/gJ0o0cU.png)
 
-Nhận được cảnh báo không ping được đến host 10.10.10.173 (lost 100%, host down)
+Nhận được cảnh báo không ping được đến host 10.10.10.129 (lost 100%, host down)
 
 **Note thực tế:**
 
@@ -240,3 +305,5 @@ Tham khảo:
 https://blog.sleeplessbeastie.eu/2017/09/11/how-to-keep-track-of-network-latency/
 
 https://www.m00nie.com/how-to-configure-smokeping-alerts/
+
+hiroom2.com/2017/05/14/centos-7-send-mail-with-postfix/
