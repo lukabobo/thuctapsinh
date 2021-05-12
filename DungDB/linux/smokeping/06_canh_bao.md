@@ -123,12 +123,7 @@ from = hocchudong2021@gmail.com@gmail.com
 type = loss
 # in percent
 pattern = >0%,*12*,>0%,*12*,>0%
-comment = loss 3 times  in a row
-
-+offlineatstartup
-type = rtt
-pattern = ==S,==U
-comment = offline at startup
+comment = mất gói trong 3 lần ping liên tiếp
 
 +hostdown_with_state
 type        = loss
@@ -139,34 +134,12 @@ comment     = host down
 +lossdetect
 type        = loss
 pattern     = ==0%,==0%,==0%,==0%,==0%,>0%,>0%,>0%
-comment     = suddenly there is packet loss
-
-+lossdetect_with_state
-type        = loss
-edgetrigger = yes
-pattern     = ==0%,==0%,==0%,==0%,==0%,>0%,>0%,>0%
-comment     = sudden packet loss
-
-+rttdetect
-type    = rtt
-pattern = <100,<100,<100,<100,<100,>100,>100,>100
-comment = suddenly latency increased over 100ms
-
-+lost_5_from_20_with_state
-type        = matcher
-edgetrigger = yes
-pattern     = CheckLoss(l => 5,x => 20)
-comment     = lost over 5 from 20 samples
-
-+rtt_avg_increased
-type        = matcher
-pattern     = Avgratio(historic => 20, current => 2, comparator=>'>', percentage => 150)
-comment     = average latency from last 2 samples increased over 150% when compared to average from last 20 samples
+comment     = mất gói đột ngột
 ```
 
 Trên đây là nhiều loại cảnh báo, sử dụng loại cảnh báo nào cho host nào là tùy bạn.
 
-Thêm alert vào các host cần gửi cảnh báo:
+Để thêm alert vào các host cần gửi cảnh báo, chúng ta chỉ cần thêm dòng `alerts = tên-loại-cảnh báo` vào dưới host cần giám sát. Để thêm nhiều loại cảnh báo vào 1 host, ta thêm dấu phẩy vào giữa các loại cảnh báo.
 
 Ví dụ:
 
@@ -183,11 +156,6 @@ Trước khi sửa:
  menu = Host1
  title = 10.10.10.128
  host = 10.10.10.128
-
- ++ Host2-129
- menu = Host2
- title = 10.10.10.129
- host = 10.10.10.129
 ```
 
 Sau khi sửa:
@@ -202,13 +170,7 @@ Sau khi sửa:
  menu = Host1
  title = 10.10.34.173
  host = 10.10.34.173
- alerts = someloss,offlineatstartup,hostdown_with_state,rttdetect,rtt_avg_increased,lossdetect
-
- ++ Host2-129
- menu = Host2
- title = 10.10.10.129
- host = 10.10.10.129
- alerts = someloss,offlineatstartup,hostdown_with_state,rttdetect,rtt_avg_increased,lossdetect
+ alerts = someloss,hostdown_with_state,lossdetect
 ```
 
 Sau khi sửa file cấu hình cần phải khởi động lại dịch vụ httpd và smokeping
@@ -216,24 +178,24 @@ Sau khi sửa file cấu hình cần phải khởi động lại dịch vụ htt
     systemctl restart httpd
     systemctl restart smokeping
 
-Thử tắt host 10.10.10.129 thử xem có nhận được cảnh báo không.
+Thử tắt host 10.10.10.128 thử xem có nhận được cảnh báo không.
 
 **Kết quả:**
 
-![Imgur](https://i.imgur.com/5xPLhSF.png)
+![Imgur](https://i.imgur.com/mXmud5a.png)
 
-![Imgur](https://i.imgur.com/gJ0o0cU.png)
+Nhận được cảnh báo không ping được đến host 10.10.10.128 (lost 100%, host down)
 
-Nhận được cảnh báo không ping được đến host 10.10.10.129 (lost 100%, host down)
+Các bạn chỉnh sửa các loại cảnh báo để sử dụng tùy theo nhu cầu giám sát của mình.
 
-**Note thực tế:**
+Một vài mẫu cảnh báo để tham khảo.
 
 ```
 +someloss
 type = loss
-# in percent
+in percent
 pattern = >0%,*12*,>0%,*12*,>0%
-comment = Mất gói 3 lần liên tiếp (không dùng)
+comment = Mất gói 3 lần liên tiếp
 
 +someloss2
 type = loss
@@ -244,7 +206,7 @@ comment = Mất gói ít liên tục trong 5 lần ping liên tiếp
 +offlineatstartup
 type = rtt
 pattern = ==S,==U
-comment = offline at startup
+comment = host đã offline trước khi giám sát
 
 #+hostdown_with_state
 #type        = loss
@@ -261,13 +223,13 @@ comment = host down!
 +lossdetect
 type        = loss
 pattern     = ==0%,==0%,==0%,==0%,==0%,>20%,>20%,>20%
-comment     = 3 lần ping liên tục bị mất 20% gói tin (4/20 gói)
+comment     = 3 lần ping liên tục bị mất 20% gói tin 
 
-#+lossdetect_with_state
-#type        = loss
-#edgetrigger = yes
-#pattern     = ==0%,==0%,==0%,==0%,==0%,>0%,>0%,>0%
-#comment     = sudden packet loss (không dùng)
++lossdetect_with_state
+type        = loss
+edgetrigger = yes
+pattern     = ==0%,==0%,==0%,==0%,==0%,>0%,>0%,>0%
+comment     = sudden packet loss
 
 +rttdetect
 type    = rtt
@@ -292,12 +254,12 @@ edgetrigger = yes
 pattern = ==0%,==0%,>80%,>80%,>80%
 comment = mất hơn 80% gói tin đột ngột 
 
-#+recover80
-#type = loss
-#priority = 1
-#edgetrigger = yes
-#pattern = >80%,==0%,==0%
-#comment = Trở lại trạng thái bình thường sau khi mất gói hơn 80% (k dùng)
++recover80
+type = loss
+priority = 1
+edgetrigger = yes
+pattern = >80%,==0%,==0%
+comment = Trở lại trạng thái bình thường sau khi mất gói hơn 80%
 ```
 
 Tham khảo: 
