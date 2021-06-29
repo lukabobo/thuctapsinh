@@ -68,3 +68,153 @@ Sau khi migrate xong, bật lại dịch vụ COM1 và COM3 tại phần Admin/ 
 
 Khởi động lại VM để kiểm tra.
 
+## Sử dụng backy2 để restore VM
+
+Click vào VM cần restore
+
+![Imgur](https://i.imgur.com/MqBsxHu.png)
+
+Click vào Volume
+
+![Imgur](https://i.imgur.com/BzaULoP.png)
+
+Ta thấy được ID volume
+
+![Imgur](https://i.imgur.com/hRUS9Q9.png)
+
+Lưu ý: Đây là ID volume của OpenStack, ở phía dưới Ceph, volume sẽ có tên là **volume-xxx**
+
+Ví dụ với ID volume trên, ta sẽ có tên của volume dưới ceph là **volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664**
+
+Trên server backup, ta có thể kiểm tra các bản backup của volume này bằng câu lệnh
+
+    backy2 ls | grep volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+Kiểm tra thông tin dưới ceph về thông tin của volume
+
+    rbd info volumes/volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+![Imgur](https://i.imgur.com/lsteK04.png)
+
+Để backup volume này, ta có thể thực hiện câu lệnh sau
+
+    backy2 backup -t <tag> rbd://volumes/volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664 volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+Trong đó:
+
+- tag: là tag bạn muốn gán cho bản backup, có thể là ngày (vd 19082020) để phục vụ việc query cho sau này.
+
+Quá trình backup sẽ bắt đầu chạy.
+
+**Lưu ý:** Backup cho phép chạy khi VM đang running, tuy nhiên việc này có thể gây lỗi với hệ điều hành sau khi restore. Vì thế hay xem xét tắt VM trước khi backup trong trường hợp cần thiết.
+
+**Để restore volume về thời điểm backup**
+
+Trước tiên ta cũng sẽ lấy thông tin của volume cần restore (xem lại các bước trên).
+
+Sau khi có được volume ID, ta sẽ tiến hành check xem volume đó đang có những bản backup nào. Ví dụ:
+
+    backy2 ls | grep volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+![Imgur](https://i.imgur.com/pPrhV2Q.png)
+
+![Imgur](https://i.imgur.com/dGGY8k5.png)
+
+Trong hình ta cần lưu ý 1 số:
+
+1 - thời gian thực hiện backup, lưu ý đây là thời gian theo UTC
+
+2 - backup ID
+
+3 - backup có valid hay không. Lưu ý ta chỉ có thể restore những bản backup có trường valid là 1
+
+Sau khi xác định được ID của bản backup cần restore. Ta sẽ thực hiện tắt VM cần restore.
+
+Lưu ý đảm bảo VM đã được tắt trước khi thực hiện các thao tác tiếp theo.
+
+Xem thông tin của volume
+
+Sau khi xác định được ID của bản backup cần restore. Ta sẽ thực hiện tắt VM cần restore.
+
+Lưu ý đảm bảo VM đã được tắt trước khi thực hiện các thao tác tiếp theo.
+
+Xem thông tin của volume
+
+    backy2 ls | grep volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+Xóa volume, trước khi xóa cần shutdown máy.
+
+    rbd rm volumes/volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+Bật byobu
+
+    byobu
+
+Restore volume
+
+    backy2 restore 9825cd22-d69d-11eb-a27e-141877630cba rbd://volumes/volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664
+
+Trong đó:
+
+`9825cd22-d69d-11eb-a27e-141877630cba` là ID của bản backup ta muốn restore về
+
+`volume-5a46aafe-c7b3-4faf-9c04-9251be7b7664` là ID của volume ta muốn restore
+
+![Imgur](https://i.imgur.com/lquxAaU.png)
+
+![Imgur](https://i.imgur.com/zoh7uto.png)
+
+Chờ đợi backup chạy. Quá trình này phụ thuộc vào dung lượng của volume.
+
+**Backup ra một VM khác**
+
+Ngữ cảnh: Restore một VM đã xóa hoặc restore ra VM khác phục vụ cho trường hợp cần check.
+
+Trước tiên ta cũng sẽ lấy thông tin của volume. Từ đó lấy thông tin của bản backup.
+
+Sau đó ta sẽ tạo 1 máy ảo mới với cấu hình giống với máy ảo cũ. Tiếp tục lấy thông tin volume của máy ảo mới.
+
+Tiến hành tắt máy ảo mới tạo. Sau đó xóa volume của máy ảo mới.
+
+Cuối cùng là restore bản backup về volume của máy ảo mới. Các thao tác tương tự như 
+
+## Giới hạn băng thông VPS
+
+Thao tác trên controller
+
+Xác định id của project cần set
+
+![Imgur](https://i.imgur.com/eWyoc2G.png)
+
+Chạy lệnh
+
+    source admin-openrc
+
+Xác định port của IP vm cần set qos
+
+    openstack port list | grep 14.225.16.40
+
+![Imgur](https://i.imgur.com/eakVBvP.png)
+
+`43272e1a-420b-458b-b165-1e816e202b94`
+
+Tạo policy
+
+    openstack network qos policy create dung-demo-interface-in-and-out-200Mb --project 01ff6af7d1df4fd69a39a2ada74315dc --share
+
+Trong đó:
+
+- `dung-demo-interface-in-and-out-200Mb` là tên của policy
+
+- `01ff6af7d1df4fd69a39a2ada74315dc` là id của project
+
+Tạo Qos policy giới hạn cả incoming và outgoing traffic của vm với mức 200Mbps trong project
+
+    openstack network qos rule create --type bandwidth-limit --max-kbps 100000 --max-burst-kbits 80000 --egress dung-demo-interface-in-and-out-200Mb
+
+    openstack network qos rule create --type bandwidth-limit --max-kbps 100000 --max-burst-kbits 80000 --ingress dung-demo-interface-in-and-out-200Mb
+
+set rule cho port vm:
+
+    openstack port set --qos-policy dung-demo-interface-in-and-out-200Mb 43272e1a-420b-458b-b165-1e816e202b94
+
