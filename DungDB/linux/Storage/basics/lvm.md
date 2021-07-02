@@ -1,1 +1,0 @@
-https://github.com/lacoski/khoa-luan/blob/master/LVM/basic-lvm.md

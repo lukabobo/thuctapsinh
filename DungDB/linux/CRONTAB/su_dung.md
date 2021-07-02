@@ -1,1 +1,0 @@
-https://ixnfo.com/en/using-and-configuring-cron.html
